@@ -1,0 +1,168 @@
+.hero {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    padding: 60px 0;
+    color: white;
+}
+
+.hero-container {
+    width: 90%;
+    max-width: 1300px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.hero-left {
+    flex: 1;
+}
+
+.hero-tag {
+    background: rgba(255,255,255,0.15);
+    padding: 8px 18px;
+    border-radius: 30px;
+    display: inline-block;
+    margin-bottom: 25px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hero-left h1 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero-left p {
+    font-size: 20px;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 35px;
+    line-height: 1.7;
+}
+
+.search-box {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    margin-bottom: 25px;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 18px;
+    font-size: 17px;
+}
+
+.search-box button {
+    border: none;
+    background: #f97316;
+    color: white;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-box button:hover {
+    background: #ea580c;
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skills span {
+    background: rgba(255,255,255,0.18);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.skills span:hover {
+    background: white;
+    color: #2563eb;
+}
+
+.hero-right {
+    flex: 1;
+    text-align: center;
+}
+
+.hero-right img {
+    width: 100%;
+    max-width: 470px;
+    animation: floatImage 4s ease-in-out infinite;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.stats div {
+    background: white;
+    color: #111827;
+    padding: 18px 25px;
+    border-radius: 15px;
+    min-width: 120px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.stats h2 {
+    color: #2563eb;
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+
+.stats p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+@keyframes floatImage {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-left h1 {
+        font-size: 42px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        padding: 16px;
+    }
+
+    .stats {
+        flex-wrap: wrap;
+    }
+}
