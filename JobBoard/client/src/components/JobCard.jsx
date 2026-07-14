@@ -5,6 +5,8 @@ import {
   FaClock,
 } from "react-icons/fa";
 
+import { Link } from "react-router-dom";
+
 import "./JobCard.css";
 
 function JobCard({ job }) {
@@ -39,9 +41,14 @@ function JobCard({ job }) {
         <span className="tag">{job.type}</span>
       </div>
 
-      <button className="apply-btn">
-        Apply Now →
-      </button>
+      <Link
+        to={`/job/${job.id}`}
+        style={{ textDecoration: "none" }}
+      >
+        <button className="apply-btn">
+          View Details →
+        </button>
+      </Link>
 
     </div>
   );

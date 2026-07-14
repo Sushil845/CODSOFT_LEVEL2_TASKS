@@ -13,7 +13,7 @@ function Navbar() {
           CareerNest
         </Link>
 
-        {/* Center Menu */}
+        {/* Navigation */}
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
           <li><Link to="/jobs">Jobs</Link></li>
@@ -21,19 +21,17 @@ function Navbar() {
           <li><Link to="/about">About</Link></li>
         </ul>
 
-        {/* Right Buttons */}
+        {/* Right Side */}
         <div className="nav-buttons">
+
           <Link to="/login" className="login-btn">
             Login
           </Link>
 
-          <Link to="/register" className="register-btn">
-            Register
+          <Link to="/employer" className="post-btn">
+            Post a Job
           </Link>
 
-          <button className="post-btn">
-            Post a Job
-          </button>
         </div>
 
       </div>

@@ -1,0 +1,126 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  padding: 40px 20px;
+}
+
+.register-card {
+  width: 500px;
+  max-width: 90%;
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px 35px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  transition: 0.3s ease;
+}
+
+.register-card:hover {
+  transform: translateY(-5px);
+}
+
+.register-card h1 {
+  text-align: center;
+  font-size: 36px;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.register-card p {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+.input-box {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-box .icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #2563eb;
+  font-size: 18px;
+}
+
+.input-box input,
+.input-box select {
+  width: 100%;
+  padding: 15px 18px 15px 50px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  outline: none;
+  font-size: 16px;
+  background: #fff;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.input-box input:hover,
+.input-box select:hover {
+  border-color: #2563eb;
+}
+
+.input-box input:focus,
+.input-box select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
+}
+
+.register-btn-form {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.register-btn-form:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 22px;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.login-link a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .register-card {
+    width: 100%;
+    padding: 25px 20px;
+  }
+
+  .register-card h1 {
+    font-size: 30px;
+  }
+
+  .register-card p {
+    font-size: 14px;
+  }
+}

@@ -1,5 +1,7 @@
+import CompanyList from "../components/CompanyList";
+
 function Companies() {
-  return <h1>Companies Page</h1>;
+  return <CompanyList />;
 }
 
 export default Companies;

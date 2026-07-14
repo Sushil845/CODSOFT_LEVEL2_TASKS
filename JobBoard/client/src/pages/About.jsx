@@ -1,5 +1,7 @@
+import AboutSection from "../components/AboutSection";
+
 function About() {
-  return <h1>About CareerNest</h1>;
+  return <AboutSection />;
 }
 
 export default About;

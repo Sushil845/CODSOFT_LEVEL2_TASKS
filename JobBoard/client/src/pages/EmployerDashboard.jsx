@@ -1,5 +1,7 @@
-function EmployerDashboard() {
-  return <h1>Employer Dashboard</h1>;
+import EmployerDashboard from "../components/EmployerDashboard";
+
+function EmployerPage() {
+  return <EmployerDashboard />;
 }
 
-export default EmployerDashboard;
+export default EmployerPage;

@@ -1,7 +1,7 @@
-function CandidateDashboard() {
-  return (
-    <h1>Candidate Dashboard</h1>
-  );
+import CandidateDashboard from "../components/CandidateDashboard";
+
+function CandidatePage() {
+  return <CandidateDashboard />;
 }
 
-export default CandidateDashboard;
+export default CandidatePage;
