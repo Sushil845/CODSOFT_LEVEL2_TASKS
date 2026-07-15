@@ -1,20 +1,79 @@
 import "./RegisterForm.css";
 import { FaUser, FaEnvelope, FaLock, FaBriefcase } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 function RegisterForm() {
+
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "candidate"
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role
+        }
+      );
+
+      alert(res.data.message);
+
+      navigate("/login");
+
+    } catch (err) {
+
+      alert(err.response?.data?.message || "Registration Failed");
+
+    }
+
+  };
+
   return (
     <div className="register-container">
       <div className="register-card">
+
         <h1>Create Account 🎉</h1>
+
         <p>Join CareerNest and start your career journey.</p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
+
           <div className="input-box">
             <FaUser className="icon" />
             <input
               type="text"
+              name="name"
               placeholder="Enter your full name"
+              value={formData.name}
+              onChange={handleChange}
+              required
             />
           </div>
 
@@ -22,7 +81,11 @@ function RegisterForm() {
             <FaEnvelope className="icon" />
             <input
               type="email"
+              name="email"
               placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
           </div>
 
@@ -30,7 +93,11 @@ function RegisterForm() {
             <FaLock className="icon" />
             <input
               type="password"
+              name="password"
               placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              required
             />
           </div>
 
@@ -38,27 +105,38 @@ function RegisterForm() {
             <FaLock className="icon" />
             <input
               type="password"
+              name="confirmPassword"
               placeholder="Confirm password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
             />
           </div>
 
           <div className="input-box">
             <FaBriefcase className="icon" />
-            <select>
-              <option>Candidate</option>
-              <option>Employer</option>
+
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+            >
+              <option value="candidate">Candidate</option>
+              <option value="employer">Employer</option>
             </select>
+
           </div>
 
-          <button className="register-btn-form">
+          <button className="register-btn-form" type="submit">
             Register
           </button>
 
           <p className="login-link">
-            Already have an account?{" "}
-            <Link to="/login">Login</Link>
+            Already have an account? <Link to="/login">Login</Link>
           </p>
+
         </form>
+
       </div>
     </div>
   );
