@@ -1,8 +1,34 @@
 import "./Jobs.css";
-import jobs from "../data/jobs";
 import JobCard from "./JobCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Jobs() {
+
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+
+    fetchJobs();
+
+  }, []);
+
+  const fetchJobs = async () => {
+
+    try {
+
+      const res = await axios.get("http://localhost:5000/api/jobs");
+
+      setJobs(res.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
   return (
     <section className="jobs-page">
 
@@ -12,6 +38,7 @@ function Jobs() {
       </div>
 
       <div className="search-section">
+
         <input
           type="text"
           placeholder="Search jobs..."
@@ -26,12 +53,20 @@ function Jobs() {
         </select>
 
         <button>Search</button>
+
       </div>
 
       <div className="jobs-grid">
+
         {jobs.map((job) => (
-          <JobCard key={job.id} job={job} />
+
+          <JobCard
+            key={job._id}
+            job={job}
+          />
+
         ))}
+
       </div>
 
     </section>

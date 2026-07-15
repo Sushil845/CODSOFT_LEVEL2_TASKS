@@ -1,8 +1,7 @@
 import {
   FaMapMarkerAlt,
   FaMoneyBillWave,
-  FaBriefcase,
-  FaClock,
+  FaUserTie,
 } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
@@ -28,21 +27,30 @@ function JobCard({ job }) {
       </div>
 
       <div className="job-info">
-        <FaBriefcase />
-        <span>{job.experience}</span>
+        <FaUserTie />
+        <span>
+          Posted by {job.employer?.name}
+        </span>
       </div>
 
-      <div className="job-info">
-        <FaClock />
-        <span>Posted {job.posted}</span>
-      </div>
+      <p
+        style={{
+          marginTop: "15px",
+          color: "#555",
+          lineHeight: "1.5"
+        }}
+      >
+        {job.description}
+      </p>
 
       <div className="job-tags">
-        <span className="tag">{job.type}</span>
+        <span className="tag">
+          {job.skills}
+        </span>
       </div>
 
       <Link
-        to={`/job/${job.id}`}
+        to={`/job/${job._id}`}
         style={{ textDecoration: "none" }}
       >
         <button className="apply-btn">

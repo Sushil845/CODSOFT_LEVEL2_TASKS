@@ -1,19 +1,45 @@
 import { useParams } from "react-router-dom";
-import jobs from "../data/jobs";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import {
   FaMapMarkerAlt,
   FaMoneyBillWave,
-  FaBriefcase,
-  FaClock,
+  FaUserTie,
 } from "react-icons/fa";
 
 function JobDetails() {
+
   const { id } = useParams();
 
-  const job = jobs.find((j) => j.id === Number(id));
+  const [job, setJob] = useState(null);
+
+  useEffect(() => {
+
+    fetchJob();
+
+  }, []);
+
+  const fetchJob = async () => {
+
+    try {
+
+      const res = await axios.get(
+        `http://localhost:5000/api/jobs/${id}`
+      );
+
+      setJob(res.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
 
   if (!job) {
-    return <h2 style={{ textAlign: "center" }}>Job Not Found</h2>;
+    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   }
 
   return (
@@ -42,30 +68,16 @@ function JobDetails() {
       </p>
 
       <p>
-        <FaBriefcase /> <strong>Experience:</strong> {job.experience}
-      </p>
-
-      <p>
-        <FaClock /> <strong>Posted:</strong> {job.posted}
+        <FaUserTie /> <strong>Posted By:</strong> {job.employer?.name}
       </p>
 
       <h3>Description</h3>
 
-      <p>
-        We are looking for a passionate {job.title} to join our team.
-        The candidate should have strong technical skills and work
-        collaboratively to build high-quality software solutions.
-      </p>
+      <p>{job.description}</p>
 
       <h3>Required Skills</h3>
 
-      <ul>
-        <li>Java / Spring Boot</li>
-        <li>React.js</li>
-        <li>REST API</li>
-        <li>Git & GitHub</li>
-        <li>Problem Solving</li>
-      </ul>
+      <p>{job.skills}</p>
 
       <button
         style={{
@@ -82,6 +94,7 @@ function JobDetails() {
       >
         Apply Now
       </button>
+
     </div>
   );
 }
