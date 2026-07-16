@@ -6,6 +6,26 @@ export const applyJob = async (req, res) => {
 
     const { jobId } = req.body;
 
+    // Only candidates can apply
+    if (req.user.role !== "candidate") {
+      return res.status(403).json({
+        message: "Only candidates can apply for jobs.",
+      });
+    }
+
+    // Check if candidate already applied
+    const existingApplication = await Application.findOne({
+      candidate: req.user.id,
+      job: jobId,
+    });
+
+    if (existingApplication) {
+      return res.status(400).json({
+        message: "You have already applied for this job.",
+      });
+    }
+
+    // Save Application
     const application = await Application.create({
       candidate: req.user.id,
       job: jobId,
