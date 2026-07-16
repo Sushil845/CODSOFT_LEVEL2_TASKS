@@ -1,15 +1,15 @@
 import Navbar from "../components/Navbar";
-import CandidateDashboard from "../components/CandidateDashboard";
 import Footer from "../components/Footer";
+import PostJobForm from "../components/PostJobForm";
 
-function CandidatePage() {
+function PostJob() {
   return (
     <>
       <Navbar />
-      <CandidateDashboard />
+      <PostJobForm />
       <Footer />
     </>
   );
 }
 
-export default CandidatePage;
+export default PostJob;

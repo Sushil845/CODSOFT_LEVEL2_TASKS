@@ -20,6 +20,7 @@ function JobDetails() {
 
   }, []);
 
+  // Fetch Single Job
   const fetchJob = async () => {
 
     try {
@@ -38,11 +39,62 @@ function JobDetails() {
 
   };
 
+  // Apply Job
+  const applyJob = async () => {
+
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+
+      alert("Please login to apply for this job.");
+
+      return;
+
+    }
+
+    try {
+
+      // Call Backend API
+      const res = await axios.post(
+
+        "http://localhost:5000/api/applications",
+
+        {
+          jobId: job._id,
+        },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+
+      );
+
+      alert(res.data.message);
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert(
+        error.response?.data?.message ||
+        "Failed to apply for job"
+      );
+
+    }
+
+  };
+
   if (!job) {
+
     return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+
   }
 
   return (
+
     <div
       style={{
         maxWidth: "900px",
@@ -53,9 +105,12 @@ function JobDetails() {
         boxShadow: "0 10px 30px rgba(0,0,0,.08)",
       }}
     >
+
       <h1>{job.title}</h1>
 
-      <h2 style={{ color: "#2563eb" }}>{job.company}</h2>
+      <h2 style={{ color: "#2563eb" }}>
+        {job.company}
+      </h2>
 
       <hr />
 
@@ -80,6 +135,7 @@ function JobDetails() {
       <p>{job.skills}</p>
 
       <button
+        onClick={applyJob}
         style={{
           marginTop: "20px",
           background: "#2563eb",
@@ -96,7 +152,9 @@ function JobDetails() {
       </button>
 
     </div>
+
   );
+
 }
 
 export default JobDetails;
