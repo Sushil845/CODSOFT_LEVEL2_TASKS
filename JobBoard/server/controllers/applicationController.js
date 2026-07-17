@@ -3,7 +3,6 @@ import Application from "../models/Application.js";
 // Apply for Job
 export const applyJob = async (req, res) => {
   try {
-
     const { jobId } = req.body;
 
     // Only candidates can apply
@@ -35,20 +34,16 @@ export const applyJob = async (req, res) => {
       message: "Application Submitted Successfully",
       application,
     });
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
-
   }
 };
 
 // Get Applicants
 export const getApplicantsByJob = async (req, res) => {
   try {
-
     const applications = await Application.find({
       job: req.params.jobId,
     })
@@ -56,12 +51,44 @@ export const getApplicantsByJob = async (req, res) => {
       .populate("job", "title company");
 
     res.status(200).json(applications);
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
+  }
+};
 
+// Get Applications of Logged-in Candidate
+export const getMyApplications = async (req, res) => {
+  try {
+    const applications = await Application.find({
+      candidate: req.user.id,
+    })
+      .populate("job", "title company")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(applications);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Check if candidate already applied for a job
+export const checkApplicationStatus = async (req, res) => {
+  try {
+    const application = await Application.findOne({
+      candidate: req.user.id,
+      job: req.params.jobId,
+    });
+
+    res.status(200).json({
+      applied: !!application,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
