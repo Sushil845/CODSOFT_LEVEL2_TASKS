@@ -6,155 +6,170 @@ import {
   FaMapMarkerAlt,
   FaMoneyBillWave,
   FaUserTie,
+  FaClock,
 } from "react-icons/fa";
 
-function JobDetails() {
+import "./JobDetails.css";
 
+function JobDetails() {
   const { id } = useParams();
 
   const [job, setJob] = useState(null);
+  const [applied, setApplied] = useState(false);
 
   useEffect(() => {
-
     fetchJob();
+    checkApplication();
+  }, [id]);
 
-  }, []);
-
-  // Fetch Single Job
   const fetchJob = async () => {
-
     try {
-
       const res = await axios.get(
         `http://localhost:5000/api/jobs/${id}`
       );
 
       setJob(res.data);
-
     } catch (error) {
-
       console.log(error);
-
     }
-
   };
 
-  // Apply Job
-  const applyJob = async () => {
-
-    // Check if user is logged in
+  const checkApplication = async () => {
     const token = localStorage.getItem("token");
 
-    if (!token) {
-
-      alert("Please login to apply for this job.");
-
-      return;
-
-    }
+    if (!token) return;
 
     try {
-
-      // Call Backend API
-      const res = await axios.post(
-
-        "http://localhost:5000/api/applications",
-
-        {
-          jobId: job._id,
-        },
-
+      const res = await axios.get(
+        `http://localhost:5000/api/applications/status/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
+      );
 
+      setApplied(res.data.applied);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const applyJob = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login to apply for this job.");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/applications",
+        {
+          jobId: job._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       alert(res.data.message);
-
+      setApplied(true);
     } catch (error) {
-
-      console.log(error);
-
       alert(
         error.response?.data?.message ||
-        "Failed to apply for job"
+          "Failed to apply for job"
       );
-
     }
-
   };
 
   if (!job) {
-
-    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
-
+    return <h2 className="loading">Loading...</h2>;
   }
 
+  const skills = job.skills ? job.skills.split(",") : [];
+
+  const postedDate = new Date(job.createdAt);
+  const today = new Date();
+
+  const diffTime = Math.abs(today - postedDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
   return (
+    <section className="job-details-page">
+      <div className="job-details-card">
 
-    <div
-      style={{
-        maxWidth: "900px",
-        margin: "40px auto",
-        padding: "35px",
-        background: "#fff",
-        borderRadius: "18px",
-        boxShadow: "0 10px 30px rgba(0,0,0,.08)",
-      }}
-    >
+        <div className="details-header">
+          <div>
+            <h1>{job.title}</h1>
+            <h2>{job.company}</h2>
+          </div>
 
-      <h1>{job.title}</h1>
+          <span className="job-type">
+            Full Time
+          </span>
+        </div>
 
-      <h2 style={{ color: "#2563eb" }}>
-        {job.company}
-      </h2>
+        <div className="details-info">
 
-      <hr />
+          <div>
+            <FaMapMarkerAlt />
+            <span>{job.location}</span>
+          </div>
 
-      <p>
-        <FaMapMarkerAlt /> <strong>Location:</strong> {job.location}
-      </p>
+          <div>
+            <FaMoneyBillWave />
+            <span>{job.salary}</span>
+          </div>
 
-      <p>
-        <FaMoneyBillWave /> <strong>Salary:</strong> {job.salary}
-      </p>
+          <div>
+            <FaUserTie />
+            <span>{job.employer?.name}</span>
+          </div>
 
-      <p>
-        <FaUserTie /> <strong>Posted By:</strong> {job.employer?.name}
-      </p>
+          <div>
+            <FaClock />
+            <span>
+              {diffDays === 1
+                ? "Posted Today"
+                : `Posted ${diffDays} days ago`}
+            </span>
+          </div>
 
-      <h3>Description</h3>
+        </div>
 
-      <p>{job.description}</p>
+        <hr />
 
-      <h3>Required Skills</h3>
+        <h3>Job Description</h3>
 
-      <p>{job.skills}</p>
+        <p className="description">
+          {job.description}
+        </p>
 
-      <button
-        onClick={applyJob}
-        style={{
-          marginTop: "20px",
-          background: "#2563eb",
-          color: "white",
-          border: "none",
-          padding: "14px 30px",
-          borderRadius: "10px",
-          cursor: "pointer",
-          fontWeight: "600",
-          fontSize: "16px",
-        }}
-      >
-        Apply Now
-      </button>
+        <h3>Required Skills</h3>
 
-    </div>
+        <div className="skills">
+          {skills.map((skill, index) => (
+            <span key={index} className="skill">
+              {skill.trim()}
+            </span>
+          ))}
+        </div>
 
+        <button
+          className={`apply-btn ${applied ? "applied-btn" : ""}`}
+          onClick={applyJob}
+          disabled={applied}
+        >
+          {applied ? "Applied ✓" : "Apply Now"}
+        </button>
+
+      </div>
+    </section>
   );
-
 }
 
 export default JobDetails;

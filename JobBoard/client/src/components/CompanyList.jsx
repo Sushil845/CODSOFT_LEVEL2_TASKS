@@ -49,18 +49,26 @@ function CompanyList() {
   return (
     <div className="companies-container">
       <h1>Top Hiring Companies</h1>
-      <p>Explore companies hiring talented professionals.</p>
+
+      <p>
+        Explore companies hiring talented professionals.
+      </p>
 
       <div className="companies-grid">
+
         {companies.map((company) => (
+
           <div className="company-card" key={company.id}>
+
             <div className="company-logo">
               {company.name.charAt(0)}
             </div>
 
             <h2>{company.name}</h2>
 
-            <p className="location">{company.location}</p>
+            <p className="location">
+              {company.location}
+            </p>
 
             <p>{company.description}</p>
 
@@ -68,10 +76,16 @@ function CompanyList() {
               <strong>{company.jobs}</strong> Open Jobs
             </p>
 
-            <button>View Company</button>
+            <div className="company-status">
+              Hiring Now
+            </div>
+
           </div>
+
         ))}
+
       </div>
+
     </div>
   );
 }
