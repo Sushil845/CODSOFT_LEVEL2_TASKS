@@ -1,6 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  saveJob,
+  unsaveJob,
+  checkSavedStatus,
+} from "../services/savedJobService";
 
 import {
   FaMapMarkerAlt,
@@ -16,10 +21,12 @@ function JobDetails() {
 
   const [job, setJob] = useState(null);
   const [applied, setApplied] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     fetchJob();
     checkApplication();
+    checkSavedJob();
   }, [id]);
 
   const fetchJob = async () => {
@@ -50,6 +57,17 @@ function JobDetails() {
       );
 
       setApplied(res.data.applied);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkSavedJob = async () => {
+    if (!localStorage.getItem("token")) return;
+
+    try {
+      const data = await checkSavedStatus(id);
+      setSaved(data.saved);
     } catch (error) {
       console.log(error);
     }
@@ -86,6 +104,30 @@ function JobDetails() {
     }
   };
 
+  const toggleSaveJob = async () => {
+    if (!localStorage.getItem("token")) {
+      alert("Please login first.");
+      return;
+    }
+
+    try {
+      if (saved) {
+        const data = await unsaveJob(job._id);
+        alert(data.message);
+        setSaved(false);
+      } else {
+        const data = await saveJob(job._id);
+        alert(data.message);
+        setSaved(true);
+      }
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+          "Something went wrong"
+      );
+    }
+  };
+
   if (!job) {
     return <h2 className="loading">Loading...</h2>;
   }
@@ -96,9 +138,10 @@ function JobDetails() {
   const today = new Date();
 
   const diffTime = Math.abs(today - postedDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  return (
+  const diffDays = Math.ceil(
+    diffTime / (1000 * 60 * 60 * 24)
+  );
+    return (
     <section className="job-details-page">
       <div className="job-details-card">
 
@@ -153,19 +196,37 @@ function JobDetails() {
 
         <div className="skills">
           {skills.map((skill, index) => (
-            <span key={index} className="skill">
+            <span
+              key={index}
+              className="skill"
+            >
               {skill.trim()}
             </span>
           ))}
         </div>
 
-        <button
-          className={`apply-btn ${applied ? "applied-btn" : ""}`}
-          onClick={applyJob}
-          disabled={applied}
-        >
-          {applied ? "Applied ✓" : "Apply Now"}
-        </button>
+        <div className="job-actions">
+
+          <button
+            className={`apply-btn ${
+              applied ? "applied-btn" : ""
+            }`}
+            onClick={applyJob}
+            disabled={applied}
+          >
+            {applied ? "Applied ✓" : "Apply Now"}
+          </button>
+
+          <button
+            className={`save-btn ${
+              saved ? "saved-btn" : ""
+            }`}
+            onClick={toggleSaveJob}
+          >
+            {saved ? "❤️ Saved" : "🤍 Save Job"}
+          </button>
+
+        </div>
 
       </div>
     </section>

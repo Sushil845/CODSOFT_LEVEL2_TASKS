@@ -18,7 +18,6 @@ function Jobs() {
     fetchJobs();
   }, []);
 
-  // Read search value from Hero page
   useEffect(() => {
     const keyword = searchParams.get("search");
 
@@ -27,7 +26,6 @@ function Jobs() {
     }
   }, [searchParams]);
 
-  // Auto filter whenever values change
   useEffect(() => {
     filterJobs();
   }, [jobs, search, location]);
@@ -35,7 +33,9 @@ function Jobs() {
   const fetchJobs = async () => {
     try {
 
-      const res = await axios.get("http://localhost:5000/api/jobs");
+      const res = await axios.get(
+        "http://localhost:5000/api/jobs"
+      );
 
       setJobs(res.data);
       setFilteredJobs(res.data);
@@ -51,7 +51,6 @@ function Jobs() {
 
     let result = [...jobs];
 
-    // Search Filter
     if (search.trim() !== "") {
 
       const keyword = search.toLowerCase();
@@ -76,14 +75,15 @@ function Jobs() {
 
     }
 
-    // Location Filter
     if (location !== "") {
 
       result = result.filter(
 
         (job) =>
-          job.location.toLowerCase() ===
-          location.toLowerCase()
+
+          job.location
+            ?.toLowerCase()
+            .includes(location.toLowerCase())
 
       );
 
@@ -99,31 +99,38 @@ function Jobs() {
 
       <div className="jobs-header">
 
-        <h1>Find Your Dream Job</h1>
+        <h1>
+          🚀 Find Your Dream Career
+        </h1>
 
         <p>
-          Explore verified opportunities from top companies.
+          Discover verified opportunities from leading
+          companies and start your next career journey.
         </p>
 
       </div>
-
-      {/* Search Section */}
 
       <div className="search-section">
 
         <input
           type="text"
-          placeholder="Search jobs..."
+          placeholder="Search by title, company or skills..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
         />
 
         <select
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          onChange={(e) =>
+            setLocation(e.target.value)
+          }
         >
 
-          <option value="">All Locations</option>
+          <option value="">
+            All Locations
+          </option>
 
           <option>Bhubaneswar</option>
 
@@ -133,21 +140,20 @@ function Jobs() {
 
           <option>Remote</option>
 
-          <option>Jajpur Road, Odisha, India</option>
+          <option>
+            Jajpur Road, Odisha, India
+          </option>
 
         </select>
 
         <button onClick={filterJobs}>
-          Search
+          🔍 Search Jobs
         </button>
 
       </div>
 
-      {/* Jobs */}
-
       <div className="jobs-grid">
-
-        {filteredJobs.length > 0 ? (
+                {filteredJobs.length > 0 ? (
 
           filteredJobs.map((job) => (
 
@@ -160,16 +166,72 @@ function Jobs() {
 
         ) : (
 
-          <h2
+          <div
             style={{
-              textAlign: "center",
               gridColumn: "1 / -1",
-              color: "#666",
-              marginTop: "30px"
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              padding: "80px 20px",
+              background: "#ffffff",
+              borderRadius: "20px",
+              boxShadow: "0 8px 25px rgba(0,0,0,.08)",
             }}
           >
-            No jobs found.
-          </h2>
+
+            <h1
+              style={{
+                fontSize: "70px",
+                marginBottom: "10px",
+              }}
+            >
+              🔍
+            </h1>
+
+            <h2
+              style={{
+                color: "#1e293b",
+                marginBottom: "10px",
+              }}
+            >
+              No Jobs Found
+            </h2>
+
+            <p
+              style={{
+                color: "#64748b",
+                fontSize: "17px",
+                textAlign: "center",
+                maxWidth: "500px",
+              }}
+            >
+              We couldn't find any jobs matching your
+              search criteria. Try changing your
+              keyword or selecting another location.
+            </p>
+
+            <button
+              onClick={() => {
+                setSearch("");
+                setLocation("");
+              }}
+              style={{
+                marginTop: "25px",
+                background: "#2563eb",
+                color: "#fff",
+                border: "none",
+                padding: "14px 30px",
+                borderRadius: "10px",
+                cursor: "pointer",
+                fontSize: "16px",
+                fontWeight: "600",
+              }}
+            >
+              Show All Jobs
+            </button>
+
+          </div>
 
         )}
 
@@ -178,6 +240,7 @@ function Jobs() {
     </section>
 
   );
+
 }
 
 export default Jobs;

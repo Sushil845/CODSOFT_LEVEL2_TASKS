@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function PostJobForm() {
-
   const navigate = useNavigate();
 
   const [job, setJob] = useState({
@@ -16,20 +15,16 @@ function PostJobForm() {
   });
 
   const handleChange = (e) => {
-
     setJob({
       ...job,
       [e.target.name]: e.target.value,
     });
-
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     try {
-
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
@@ -43,124 +38,168 @@ function PostJobForm() {
       );
 
       alert(res.data.message);
-
       navigate("/employer");
-
     } catch (error) {
-
-      alert(
-        error.response?.data?.message ||
-        "Failed to post job"
-      );
-
+      alert(error.response?.data?.message || "Failed to post job");
     }
+  };
 
+  const inputStyle = {
+    width: "100%",
+    padding: "14px",
+    borderRadius: "10px",
+    border: "1px solid #d1d5db",
+    outline: "none",
+    fontSize: "15px",
+    boxSizing: "border-box",
+    marginTop: "8px",
+    marginBottom: "20px",
   };
 
   return (
-
     <div
       style={{
-        maxWidth: "700px",
-        margin: "40px auto",
-        background: "#fff",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg,#2563eb,#4f46e5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         padding: "30px",
-        borderRadius: "15px",
-        boxShadow: "0 10px 30px rgba(0,0,0,.1)",
       }}
     >
-
-      <h1>Post New Job</h1>
-
-      <form onSubmit={handleSubmit}>
-
-        <input
-          type="text"
-          name="title"
-          placeholder="Job Title"
-          value={job.title}
-          onChange={handleChange}
-          required
-        />
-
-        <br /><br />
-
-        <input
-          type="text"
-          name="company"
-          placeholder="Company"
-          value={job.company}
-          onChange={handleChange}
-          required
-        />
-
-        <br /><br />
-
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={job.location}
-          onChange={handleChange}
-          required
-        />
-
-        <br /><br />
-
-        <input
-          type="text"
-          name="salary"
-          placeholder="Salary"
-          value={job.salary}
-          onChange={handleChange}
-          required
-        />
-
-        <br /><br />
-
-        <textarea
-          name="description"
-          placeholder="Job Description"
-          value={job.description}
-          onChange={handleChange}
-          rows="5"
-          required
-        />
-
-        <br /><br />
-
-        <input
-          type="text"
-          name="skills"
-          placeholder="Skills (comma separated)"
-          value={job.skills}
-          onChange={handleChange}
-          required
-        />
-
-        <br /><br />
-
-        <button
-          type="submit"
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "800px",
+          background: "#fff",
+          borderRadius: "20px",
+          padding: "40px",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+        }}
+      >
+        <h1
           style={{
-            background: "#2563eb",
-            color: "#fff",
-            padding: "12px 25px",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontSize: "16px",
+            textAlign: "center",
+            marginBottom: "10px",
+            color: "#1e293b",
           }}
         >
-          Post Job
-        </button>
+          🚀 Post a New Job
+        </h1>
 
-      </form>
+        <p
+          style={{
+            textAlign: "center",
+            color: "#64748b",
+            marginBottom: "35px",
+          }}
+        >
+          Fill in the details below to publish your job opening.
+        </p>
 
+        <form onSubmit={handleSubmit}>
+          <label><strong>Job Title</strong></label>
+          <input
+            style={inputStyle}
+            type="text"
+            name="title"
+            placeholder="Senior MERN Stack Developer"
+            value={job.title}
+            onChange={handleChange}
+            required
+          />
+
+          <label><strong>Company Name</strong></label>
+          <input
+            style={inputStyle}
+            type="text"
+            name="company"
+            placeholder="Google"
+            value={job.company}
+            onChange={handleChange}
+            required
+          />
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "20px",
+            }}
+          >
+            <div>
+              <label><strong>Location</strong></label>
+              <input
+                style={inputStyle}
+                type="text"
+                name="location"
+                placeholder="Bangalore"
+                value={job.location}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <label><strong>Salary</strong></label>
+              <input
+                style={inputStyle}
+                type="text"
+                name="salary"
+                placeholder="₹12 LPA"
+                value={job.salary}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <label><strong>Required Skills</strong></label>
+          <input
+            style={inputStyle}
+            type="text"
+            name="skills"
+            placeholder="React, Node.js, MongoDB"
+            value={job.skills}
+            onChange={handleChange}
+            required
+          />
+
+          <label><strong>Job Description</strong></label>
+          <textarea
+            style={{
+              ...inputStyle,
+              minHeight: "160px",
+              resize: "vertical",
+            }}
+            name="description"
+            placeholder="Describe responsibilities, requirements, benefits, and expectations..."
+            value={job.description}
+            onChange={handleChange}
+            required
+          />
+
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              background: "linear-gradient(135deg,#2563eb,#4f46e5)",
+              color: "#fff",
+              border: "none",
+              padding: "16px",
+              borderRadius: "12px",
+              fontSize: "17px",
+              fontWeight: "bold",
+              cursor: "pointer",
+              transition: "0.3s",
+            }}
+          >
+            🚀 Publish Job
+          </button>
+        </form>
+      </div>
     </div>
-
   );
-
 }
 
 export default PostJobForm;

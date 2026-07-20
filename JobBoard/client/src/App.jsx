@@ -13,6 +13,10 @@ import Applicants from "./pages/Applicants";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PostJob from "./pages/PostJob";
 import EditJob from "./pages/EditJob";
+import SavedJobs from "./pages/SavedJobs";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyOtp from "./pages/VerifyOtp";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -29,6 +33,19 @@ function App() {
 
         <Route path="/job/:id" element={<JobDetails />} />
 
+        <Route path="/saved-jobs" element={<SavedJobs />} />
+        <Route
+  path="/forgot-password"
+  element={<ForgotPassword />}
+/>
+<Route
+  path="/verify-otp"
+  element={<VerifyOtp />}
+/>
+<Route
+  path="/reset-password"
+  element={<ResetPassword />}
+/>
         <Route
           path="/employer"
           element={

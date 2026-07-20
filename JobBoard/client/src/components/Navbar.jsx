@@ -80,6 +80,17 @@ function Navbar() {
                 </NavLink>
               </li>
 
+              {token && user?.role === "candidate" && (
+                <li>
+                  <NavLink
+                    to="/saved-jobs"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    ❤️ Saved Jobs
+                  </NavLink>
+                </li>
+              )}
+
             </ul>
           )}
 
@@ -141,30 +152,33 @@ function Navbar() {
                   <div className="dropdown">
 
                     {user?.role === "candidate" ? (
-                      <NavLink
-                        to="/candidate"
-                        onClick={() =>
-                          setDropdownOpen(false)
-                        }
-                      >
-                        Dashboard
-                      </NavLink>
+                      <>
+                        <NavLink
+                          to="/candidate"
+                          onClick={() => setDropdownOpen(false)}
+                        >
+                          Dashboard
+                        </NavLink>
+
+                        <NavLink
+                          to="/saved-jobs"
+                          onClick={() => setDropdownOpen(false)}
+                        >
+                          ❤️ Saved Jobs
+                        </NavLink>
+                      </>
                     ) : (
                       <>
                         <NavLink
                           to="/employer"
-                          onClick={() =>
-                            setDropdownOpen(false)
-                          }
+                          onClick={() => setDropdownOpen(false)}
                         >
                           Employer Dashboard
                         </NavLink>
 
                         <NavLink
                           to="/post-job"
-                          onClick={() =>
-                            setDropdownOpen(false)
-                          }
+                          onClick={() => setDropdownOpen(false)}
                         >
                           Post Job
                         </NavLink>

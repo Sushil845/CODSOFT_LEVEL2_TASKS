@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: flex-start;
 }
+
 .job-details-card {
   background: #fff;
   width: 100%;
@@ -102,10 +103,19 @@
   font-weight: 600;
 }
 
-.apply-btn {
-  width: 100%;
-  background: #2563eb;
-  color: white;
+/* ===============================
+   Buttons
+================================ */
+
+.job-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.apply-btn,
+.save-btn {
+  flex: 1;
   border: none;
   padding: 16px;
   border-radius: 12px;
@@ -115,10 +125,53 @@
   transition: 0.3s ease;
 }
 
+/* Apply Button */
+
+.apply-btn {
+  background: #2563eb;
+  color: white;
+}
+
 .apply-btn:hover {
   background: #1d4ed8;
   transform: translateY(-2px);
 }
+
+.applied-btn {
+  background: #16a34a;
+  cursor: not-allowed;
+}
+
+.applied-btn:hover {
+  background: #16a34a;
+  transform: none;
+}
+
+/* Save Button */
+
+.save-btn {
+  background: #f3f4f6;
+  color: #111827;
+  border: 2px solid #e5e7eb;
+}
+
+.save-btn:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+}
+
+.saved-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+}
+
+.saved-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* Loading */
 
 .loading {
   text-align: center;
@@ -126,6 +179,10 @@
   font-size: 28px;
   color: #2563eb;
 }
+
+/* ===============================
+   Responsive
+================================ */
 
 @media (max-width: 768px) {
   .job-details-card {
@@ -148,16 +205,13 @@
     grid-template-columns: 1fr;
   }
 
-  .apply-btn {
+  .job-actions {
+    flex-direction: column;
+  }
+
+  .apply-btn,
+  .save-btn {
+    width: 100%;
     font-size: 16px;
   }
-}
-.applied-btn {
-  background: #16a34a;
-  cursor: not-allowed;
-}
-
-.applied-btn:hover {
-  background: #16a34a;
-  transform: none;
 }

@@ -5,25 +5,24 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
+
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleLogin = async () => {
-
     try {
-
       const res = await axios.post(
         "http://localhost:5000/api/auth/login",
         formData
@@ -32,6 +31,8 @@ function Login() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
+      setShowForgotPassword(false);
+
       alert(res.data.message);
 
       if (res.data.user.role === "candidate") {
@@ -39,19 +40,28 @@ function Login() {
       } else {
         navigate("/employer");
       }
-
     } catch (err) {
+      const data = err.response?.data;
 
-      alert(err.response?.data?.message || "Login Failed");
+      if (data?.showForgotPassword) {
+        setShowForgotPassword(true);
 
+        alert(
+          "Invalid Credentials.\n\nHaving trouble signing in?\nPlease reset your password."
+        );
+      } else if (data?.remainingAttempts !== undefined) {
+        alert(
+          `Invalid Credentials.\n\n${data.remainingAttempts} attempt(s) remaining.`
+        );
+      } else {
+        alert(data?.message || "Login Failed");
+      }
     }
-
   };
 
   return (
     <div className="login-page">
       <div className="login-card">
-
         <h1>Welcome Back 👋</h1>
 
         <p className="login-subtitle">
@@ -84,10 +94,22 @@ function Login() {
           Login
         </button>
 
+        {showForgotPassword && (
+          <p
+            className="bottom-text"
+            style={{ marginTop: "15px", color: "#dc2626" }}
+          >
+            Having trouble signing in?
+            <br />
+            <Link to="/forgot-password">
+              Forgot Password?
+            </Link>
+          </p>
+        )}
+
         <p className="bottom-text">
           Don't have an account? <Link to="/register">Register</Link>
         </p>
-
       </div>
     </div>
   );

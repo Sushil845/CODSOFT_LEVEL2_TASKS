@@ -1,0 +1,143 @@
+.saved-jobs-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.saved-jobs-page h1 {
+  text-align: center;
+  margin-bottom: 35px;
+  color: #1e3a8a;
+  font-size: 2rem;
+}
+
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.saved-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 22px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+  border: 1px solid #e5e7eb;
+}
+
+.saved-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.saved-card h2 {
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.saved-card h3 {
+  color: #555;
+  margin-bottom: 18px;
+}
+
+.saved-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.saved-info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #555;
+  font-size: 15px;
+}
+
+.saved-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.details-btn,
+.remove-btn {
+  flex: 1;
+  padding: 11px;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.details-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.details-btn:hover {
+  background: #1d4ed8;
+}
+
+.remove-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+}
+
+.remove-btn:hover {
+  background: #dc2626;
+}
+
+.empty {
+  text-align: center;
+  margin-top: 70px;
+}
+
+.empty h2 {
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.empty p {
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+.browse-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.browse-btn:hover {
+  background: #1d4ed8;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 80px;
+  color: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .saved-actions {
+    flex-direction: column;
+  }
+
+  .saved-card {
+    padding: 18px;
+  }
+
+  .saved-jobs-page h1 {
+    font-size: 1.7rem;
+  }
+}

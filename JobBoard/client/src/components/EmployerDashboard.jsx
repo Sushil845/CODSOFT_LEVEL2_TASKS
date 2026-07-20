@@ -4,18 +4,14 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function EmployerDashboard() {
-
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     fetchMyJobs();
   }, []);
 
-  // Fetch Employer Jobs
   const fetchMyJobs = async () => {
-
     try {
-
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
@@ -28,18 +24,12 @@ function EmployerDashboard() {
       );
 
       setJobs(res.data);
-
     } catch (error) {
-
       console.log(error);
-
     }
-
   };
 
-  // Delete Job
   const deleteJob = async (id) => {
-
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this job?"
     );
@@ -47,7 +37,6 @@ function EmployerDashboard() {
     if (!confirmDelete) return;
 
     try {
-
       const token = localStorage.getItem("token");
 
       const res = await axios.delete(
@@ -62,57 +51,59 @@ function EmployerDashboard() {
       alert(res.data.message);
 
       fetchMyJobs();
-
     } catch (error) {
-
       alert(
         error.response?.data?.message ||
-        "Failed to delete job."
+          "Failed to delete job."
       );
-
     }
-
   };
 
   return (
-
     <div className="employer-dashboard">
 
       <div className="dashboard-header">
-
-        <h1>Employer Dashboard</h1>
+        <div>
+          <h1>👋 Welcome Back Employer</h1>
+          <p>
+            Manage your job postings, review applicants, and streamline your hiring process—all in one place.
+          </p>
+        </div>
 
         <Link
           to="/post-job"
           style={{ textDecoration: "none" }}
         >
           <button className="post-job-btn">
-            + Post New Job
+            🚀 Post New Job
           </button>
         </Link>
-
       </div>
 
       <div className="stats-grid">
 
         <div className="stat-card">
+          <div className="icon">💼</div>
           <h2>{jobs.length}</h2>
           <p>Jobs Posted</p>
         </div>
 
         <div className="stat-card">
-          <h2>-</h2>
+          <div className="icon">👥</div>
+          <h2>0</h2>
           <p>Total Applicants</p>
         </div>
 
         <div className="stat-card">
+          <div className="icon">✅</div>
           <h2>{jobs.length}</h2>
           <p>Active Jobs</p>
         </div>
 
         <div className="stat-card">
-          <h2>-</h2>
-          <p>Interviews Scheduled</p>
+          <div className="icon">📅</div>
+          <h2>0</h2>
+          <p>Interviews</p>
         </div>
 
       </div>
@@ -129,6 +120,7 @@ function EmployerDashboard() {
               <th>Job Title</th>
               <th>Company</th>
               <th>Location</th>
+              <th>Salary</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -149,9 +141,11 @@ function EmployerDashboard() {
 
                   <td>{job.location}</td>
 
-                  <td className="active">
-                    Active
-                  </td>
+                  <td>{job.salary}</td>
+
+                  <td>
+  <span className="status-badge">Active</span>
+</td>
 
                   <td>
 
@@ -159,19 +153,8 @@ function EmployerDashboard() {
                       to={`/applicants/${job._id}`}
                       style={{ textDecoration: "none" }}
                     >
-                      <button
-                        style={{
-                          background: "#2563eb",
-                          color: "#fff",
-                          border: "none",
-                          padding: "8px 14px",
-                          borderRadius: "6px",
-                          cursor: "pointer",
-                          marginRight: "8px",
-                          fontWeight: "600",
-                        }}
-                      >
-                        View Applicants
+                      <button className="view-btn">
+                        👥 Applicants
                       </button>
                     </Link>
 
@@ -179,33 +162,14 @@ function EmployerDashboard() {
                       to={`/edit-job/${job._id}`}
                       style={{ textDecoration: "none" }}
                     >
-                      <button
-                        style={{
-                          background: "#f59e0b",
-                          color: "#fff",
-                          border: "none",
-                          padding: "8px 14px",
-                          borderRadius: "6px",
-                          cursor: "pointer",
-                          marginRight: "8px",
-                          fontWeight: "600",
-                        }}
-                      >
-                        ✏️ Edit
+                      <button className="edit-btn">
+                        ✏ Edit
                       </button>
                     </Link>
 
                     <button
+                      className="delete-btn"
                       onClick={() => deleteJob(job._id)}
-                      style={{
-                        background: "#ef4444",
-                        color: "#fff",
-                        border: "none",
-                        padding: "8px 14px",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        fontWeight: "600",
-                      }}
                     >
                       🗑 Delete
                     </button>
@@ -221,13 +185,19 @@ function EmployerDashboard() {
               <tr>
 
                 <td
-                  colSpan="5"
+                  colSpan="6"
                   style={{
                     textAlign: "center",
-                    padding: "20px",
+                    padding: "50px",
                   }}
                 >
-                  No jobs posted yet.
+                  <h3>📭 No jobs posted yet</h3>
+
+                  <p>
+                    Click on "Post New Job" to hire your
+                    first employee.
+                  </p>
+
                 </td>
 
               </tr>
@@ -241,9 +211,7 @@ function EmployerDashboard() {
       </div>
 
     </div>
-
   );
-
 }
 
 export default EmployerDashboard;
