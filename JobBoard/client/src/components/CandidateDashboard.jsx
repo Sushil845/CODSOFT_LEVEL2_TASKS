@@ -10,7 +10,11 @@ function CandidateDashboard() {
   const [editName, setEditName] = useState("");
   const [editPassword, setEditPassword] = useState("");
 
+  // Resume Upload
   const fileInputRef = useRef(null);
+
+  // Profile Picture Upload
+  const imageInputRef = useRef(null);
 
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
@@ -19,8 +23,7 @@ function CandidateDashboard() {
     fetchApplications();
     fetchProfile();
   }, []);
-
-  const fetchApplications = async () => {
+    const fetchApplications = async () => {
     try {
       const res = await axios.get(
         "http://localhost:5000/api/applications/my",
@@ -49,13 +52,27 @@ function CandidateDashboard() {
       );
 
       setProfile(res.data);
+
       setEditName(res.data.name);
+
+      // Update localStorage so Navbar and other pages
+      // always have the latest profile information
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...user,
+          name: res.data.name,
+          email: res.data.email,
+          role: res.data.role,
+          profileImage: res.data.profileImage,
+        })
+      );
+
     } catch (error) {
       console.log(error);
     }
   };
-
-  const uploadResume = async (e) => {
+    const uploadResume = async (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
@@ -89,17 +106,66 @@ function CandidateDashboard() {
     }
   };
 
-  const updateProfile = async () => {
+  // Upload Profile Picture
+  const uploadProfileImage = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select a valid image.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("profileImage", file);
+
     try {
       const res = await axios.put(
         "http://localhost:5000/api/auth/profile",
-        {
-          name: editName,
-          password: editPassword,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      localStorage.setItem(
+  "user",
+  JSON.stringify(res.data.user)
+);
+
+// Tell Navbar to refresh
+window.dispatchEvent(new Event("userUpdated"));
+
+alert("Profile picture updated successfully.");
+
+fetchProfile();
+
+    } catch (error) {
+      console.log(error);
+      alert("Profile picture upload failed.");
+    }
+  };
+    const updateProfile = async () => {
+    try {
+      const formData = new FormData();
+
+      formData.append("name", editName);
+
+      if (editPassword.trim() !== "") {
+        formData.append("password", editPassword);
+      }
+
+      const res = await axios.put(
+        "http://localhost:5000/api/auth/profile",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -117,19 +183,21 @@ function CandidateDashboard() {
       fetchProfile();
 
       window.location.reload();
+
     } catch (error) {
       console.log(error);
       alert("Profile Update Failed");
     }
   };
 
-  /* ---------- RETURN STARTS IN PART 2 ---------- */
-    return (
+  return (
     <div className="candidate-dashboard">
 
       <div className="welcome-card">
         <h1>👋 Welcome Back, {user?.name}</h1>
-        <p>Manage your applications and track your career journey.</p>
+        <p>
+          Manage your applications and track your career journey.
+        </p>
       </div>
 
       <div className="stats-container">
@@ -156,16 +224,73 @@ function CandidateDashboard() {
         </div>
 
       </div>
-
-      <div className="applications-card">
+            <div className="applications-card">
 
         <h2>👤 My Profile</h2>
 
         {profile && (
           <>
-            <p><strong>Name:</strong> {profile.name}</p>
-            <p><strong>Email:</strong> {profile.email}</p>
-            <p><strong>Role:</strong> {profile.role}</p>
+
+            {/* Profile Picture */}
+
+            <div
+              style={{
+                textAlign: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <img
+                src={
+                  profile.profileImage
+                    ? `http://localhost:5000/uploads/${profile.profileImage}`
+                    : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        profile.name
+                      )}&background=2563eb&color=fff&size=200`
+                }
+                alt="Profile"
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "4px solid #2563eb",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                }}
+              />
+
+              <br />
+
+              <button
+                style={{ marginTop: "15px" }}
+                onClick={() => imageInputRef.current.click()}
+              >
+                📷 Change Profile Picture
+              </button>
+            </div>
+
+            {/* Hidden Image Input */}
+
+            <input
+              type="file"
+              accept="image/*"
+              ref={imageInputRef}
+              onChange={uploadProfileImage}
+              style={{ display: "none" }}
+            />
+
+            <p>
+              <strong>Name:</strong> {profile.name}
+            </p>
+
+            <p>
+              <strong>Email:</strong> {profile.email}
+            </p>
+
+            <p>
+              <strong>Role:</strong> {profile.role}
+            </p>
+
+            {/* Resume Upload */}
 
             <input
               type="file"
@@ -184,8 +309,7 @@ function CandidateDashboard() {
                   ? "📤 Change Resume"
                   : "📤 Upload Resume"}
               </button>
-
-              {profile.resume && (
+                            {profile.resume && (
                 <a
                   href={`http://localhost:5000/uploads/${profile.resume}`}
                   target="_blank"
@@ -260,9 +384,7 @@ function CandidateDashboard() {
 
                   <td>{app.job?.company}</td>
 
-                  <td>
-
-                    {app.status === "Pending" && (
+                  <td>                    {app.status === "Pending" && (
                       <span
                         style={{
                           color: "#f59e0b",
@@ -324,7 +446,8 @@ function CandidateDashboard() {
         </table>
 
       </div>
-            <div className="profile-card">
+
+      <div className="profile-card">
 
         <h2>Profile Completion</h2>
 
@@ -346,8 +469,7 @@ function CandidateDashboard() {
         </button>
 
       </div>
-
-      {showEditModal && (
+            {showEditModal && (
         <div className="modal-overlay">
 
           <div className="edit-modal">
@@ -417,3 +539,4 @@ function CandidateDashboard() {
 }
 
 export default CandidateDashboard;
+                  

@@ -1,17 +1,24 @@
 import "./EmployerDashboard.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 function EmployerDashboard() {
+
   const [jobs, setJobs] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [totalApplicants, setTotalApplicants] = useState(0);
+
+  const imageInputRef = useRef(null);
 
   useEffect(() => {
     fetchMyJobs();
+    fetchProfile();
   }, []);
 
   const fetchMyJobs = async () => {
     try {
+
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
@@ -24,12 +31,99 @@ function EmployerDashboard() {
       );
 
       setJobs(res.data);
+
+      const total = res.data.reduce(
+        (sum, job) => sum + job.applicantCount,
+        0
+      );
+
+      setTotalApplicants(total);
+
     } catch (error) {
       console.log(error);
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(
+        "http://localhost:5000/api/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setProfile(res.data);
+
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...user,
+          name: res.data.name,
+          profileImage: res.data.profileImage,
+        })
+      );
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const uploadProfileImage = async (e) => {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("profileImage", file);
+
+    try {
+
+      const res = await axios.put(
+        "http://localhost:5000/api/auth/profile",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
+
+      window.dispatchEvent(new Event("userUpdated"));
+
+      fetchProfile();
+
+      alert("Profile picture updated successfully.");
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Upload failed");
+
+    }
+
+  };
+
   const deleteJob = async (id) => {
+
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this job?"
     );
@@ -37,6 +131,7 @@ function EmployerDashboard() {
     if (!confirmDelete) return;
 
     try {
+
       const token = localStorage.getItem("token");
 
       const res = await axios.delete(
@@ -51,23 +146,37 @@ function EmployerDashboard() {
       alert(res.data.message);
 
       fetchMyJobs();
+
     } catch (error) {
+
       alert(
         error.response?.data?.message ||
-          "Failed to delete job."
+        "Failed to delete job."
       );
+
     }
+
   };
 
   return (
+
     <div className="employer-dashboard">
 
+      {/* Header */}
+
       <div className="dashboard-header">
+
         <div>
-          <h1>👋 Welcome Back Employer</h1>
+
+          <h1>
+            👋 Welcome Back {profile?.name || "Employer"}
+          </h1>
+
           <p>
-            Manage your job postings, review applicants, and streamline your hiring process—all in one place.
+            Manage your job postings, review applicants,
+            and streamline your hiring process—all in one place.
           </p>
+
         </div>
 
         <Link
@@ -78,7 +187,11 @@ function EmployerDashboard() {
             🚀 Post New Job
           </button>
         </Link>
+
+      
+
       </div>
+            {/* Statistics */}
 
       <div className="stats-grid">
 
@@ -90,7 +203,7 @@ function EmployerDashboard() {
 
         <div className="stat-card">
           <div className="icon">👥</div>
-          <h2>0</h2>
+          <h2>{totalApplicants}</h2>
           <p>Total Applicants</p>
         </div>
 
@@ -106,7 +219,51 @@ function EmployerDashboard() {
           <p>Interviews</p>
         </div>
 
+</div>
+
+      {/* Employer Profile */}
+
+      <div className="profile-card">
+
+        <img
+          src={
+            profile?.profileImage
+              ? `http://localhost:5000/uploads/${profile.profileImage}`
+              : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                  profile?.name || "Employer"
+                )}&background=2563eb&color=fff`
+          }
+          alt="Profile"
+          className="profile-image"
+        />
+
+        <h3>{profile?.name}</h3>
+
+       
+
+        <span className="profile-role">
+          Employer
+        </span>
+
+        <br /><br />
+
+        <button
+          className="edit-btn"
+          onClick={() => imageInputRef.current.click()}
+        >
+          📷 Change Picture
+        </button>
+
+        <input
+          type="file"
+          accept="image/*"
+          ref={imageInputRef}
+          onChange={uploadProfileImage}
+          style={{ display: "none" }}
+        />
       </div>
+
+      {/* Jobs Section */}
 
       <div className="jobs-section">
 
@@ -144,8 +301,10 @@ function EmployerDashboard() {
                   <td>{job.salary}</td>
 
                   <td>
-  <span className="status-badge">Active</span>
-</td>
+                    <span className="status-badge">
+                      Active
+                    </span>
+                  </td>
 
                   <td>
 
@@ -191,11 +350,11 @@ function EmployerDashboard() {
                     padding: "50px",
                   }}
                 >
+
                   <h3>📭 No jobs posted yet</h3>
 
                   <p>
-                    Click on "Post New Job" to hire your
-                    first employee.
+                    Click on "Post New Job" to hire your first employee.
                   </p>
 
                 </td>
@@ -211,7 +370,9 @@ function EmployerDashboard() {
       </div>
 
     </div>
+
   );
+
 }
 
 export default EmployerDashboard;

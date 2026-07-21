@@ -161,7 +161,7 @@ tbody tr:hover{
 /* ===========================
    Status Badge
 =========================== */
-Active
+
 .status-badge{
     display:inline-block;
     background:#dcfce7;
@@ -264,4 +264,72 @@ table{
     grid-template-columns:1fr;
 }
 
+}
+/* ===========================
+   Employer Profile Card
+=========================== */
+
+.profile-card{
+    width:260px;
+    padding:18px;
+    margin:30px 0 35px;
+    background:#fff;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
+
+.profile-image{
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #2563eb;
+    margin-bottom:12px;
+}
+
+.profile-card h3{
+    margin:6px 0;
+    font-size:24px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.profile-card p{
+    margin:2px 0;
+    font-size:14px;
+    color:#64748b;
+    word-break:break-word;
+}
+
+.profile-role{
+    margin:12px 0 16px;
+    padding:6px 16px;
+    background:#dbeafe;
+    color:#2563eb;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.profile-btn{
+    width:100%;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.profile-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
 }

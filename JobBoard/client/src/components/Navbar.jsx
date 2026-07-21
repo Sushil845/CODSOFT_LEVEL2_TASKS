@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   FaBriefcase,
   FaBars,
   FaTimes,
-  FaUserCircle,
 } from "react-icons/fa";
 import "./Navbar.css";
 
@@ -12,10 +11,23 @@ function Navbar() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+const [user, setUser] = useState(
+  JSON.parse(localStorage.getItem("user"))
+);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+useEffect(() => {
+  const updateUser = () => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  };
+
+  window.addEventListener("userUpdated", updateUser);
+
+  return () => {
+    window.removeEventListener("userUpdated", updateUser);
+  };
+}, []);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -136,18 +148,27 @@ function Navbar() {
               <div className="profile">
 
                 <div
-                  className="profile-btn"
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                >
-                  <FaUserCircle />
+  className="profile-btn"
+  onClick={() => setDropdownOpen(!dropdownOpen)}
+>
 
-                  <span>
-                    {user?.role === "candidate"
-                      ? "Candidate"
-                      : "Employer"}
-                  </span>
-                </div>
+  <img
+    src={
+      user?.profileImage
+        ? `http://localhost:5000/uploads/${user.profileImage}`
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            user?.name || "User"
+          )}&background=2563eb&color=fff`
+    }
+    alt="Profile"
+    className="navbar-profile-image"
+  />
 
+  <span>
+    {user?.name}
+  </span>
+
+</div>
                 {dropdownOpen && (
                   <div className="dropdown">
 

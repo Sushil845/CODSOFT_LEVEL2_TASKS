@@ -55,7 +55,7 @@ function Applicants() {
   return (
     <div
       style={{
-        maxWidth: "1100px",
+        maxWidth: "1200px",
         margin: "40px auto",
         background: "#fff",
         padding: "30px",
@@ -74,8 +74,7 @@ function Applicants() {
       >
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
+            <th>Candidate</th>
             <th>Resume</th>
             <th>Status</th>
             <th>Actions</th>
@@ -83,48 +82,80 @@ function Applicants() {
         </thead>
 
         <tbody>
+
           {applications.length > 0 ? (
+
             applications.map((app) => (
+
               <tr key={app._id}>
-                <td>{app.candidate.name}</td>
-
-                <td>{app.candidate.email}</td>
 
                 <td>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "15px",
+                    }}
+                  >
+
+                    <img
+                      src={
+                        app.candidate.profileImage
+                          ? `http://localhost:5000/uploads/${app.candidate.profileImage}`
+                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                              app.candidate.name
+                            )}&background=2563eb&color=fff`
+                      }
+                      alt="Candidate"
+                      style={{
+                        width: "55px",
+                        height: "55px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        border: "2px solid #2563eb",
+                      }}
+                    />
+
+                    <div>
+
+                      <strong>
+                        {app.candidate.name}
+                      </strong>
+
+                      <br />
+
+                      <span
+                        style={{
+                          color: "#666",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {app.candidate.email}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <td>
+
                   {app.candidate.resume ? (
-                    <span style={{ color: "green", fontWeight: "bold" }}>
-                      ✅ Uploaded
-                    </span>
-                  ) : (
-                    <span style={{ color: "red" }}>
-                      ❌ Not Uploaded
-                    </span>
-                  )}
-                </td>
 
-                <td>
-                  {app.status === "Pending" && (
-                    <span style={{ color: "#f59e0b", fontWeight: "bold" }}>
-                      🟡 Pending
-                    </span>
-                  )}
-
-                  {app.status === "Approved" && (
-                    <span style={{ color: "green", fontWeight: "bold" }}>
-                      🟢 Approved
-                    </span>
-                  )}
-
-                  {app.status === "Rejected" && (
-                    <span style={{ color: "red", fontWeight: "bold" }}>
-                      🔴 Rejected
-                    </span>
-                  )}
-                </td>
-
-                <td>
-                  {app.candidate.resume && (
                     <>
+                      <span
+                        style={{
+                          color: "green",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ✅ Uploaded
+                      </span>
+
+                      <br /><br />
+
                       <a
                         href={`http://localhost:5000/uploads/${app.candidate.resume}`}
                         target="_blank"
@@ -159,14 +190,66 @@ function Applicants() {
                             padding: "8px 12px",
                             borderRadius: "6px",
                             cursor: "pointer",
-                            marginRight: "8px",
                           }}
                         >
                           ⬇ Download
                         </button>
                       </a>
+
                     </>
+                                      ) : (
+
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      ❌ Not Uploaded
+                    </span>
+
                   )}
+
+                </td>
+
+                <td>
+
+                  {app.status === "Pending" && (
+                    <span
+                      style={{
+                        color: "#f59e0b",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      🟡 Pending
+                    </span>
+                  )}
+
+                  {app.status === "Approved" && (
+                    <span
+                      style={{
+                        color: "#16a34a",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      🟢 Approved
+                    </span>
+                  )}
+
+                  {app.status === "Rejected" && (
+                    <span
+                      style={{
+                        color: "#ef4444",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      🔴 Rejected
+                    </span>
+                  )}
+
+                </td>
+
+                <td>
 
                   {app.status === "Pending" && (
                     <>
@@ -204,24 +287,35 @@ function Applicants() {
                       </button>
                     </>
                   )}
+
                 </td>
+
               </tr>
+
             ))
+
           ) : (
+
             <tr>
+
               <td
-                colSpan="5"
+                colSpan="4"
                 style={{
                   textAlign: "center",
-                  padding: "20px",
+                  padding: "40px",
                 }}
               >
-                No applicants found.
+                <h3>📭 No applicants found.</h3>
               </td>
+
             </tr>
+
           )}
+
         </tbody>
+
       </table>
+
     </div>
   );
 }

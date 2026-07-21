@@ -144,9 +144,19 @@
     color: #1E293B;
 }
 
-.profile-btn svg {
-    font-size: 24px;
-    color: #2563EB;
+/* Profile Picture */
+
+.navbar-profile-image{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #fff;
+}
+
+.profile-btn span{
+    font-size:16px;
+    color:#1E293B;
 }
 
 .dropdown {
