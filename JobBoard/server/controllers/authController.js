@@ -71,11 +71,12 @@ export const register = async (req, res) => {
     }
 
     const userData = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    };
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  profileImage: user.profileImage,
+};
 
     res.status(201).json({
       message: "User Registered Successfully",
@@ -315,11 +316,12 @@ export const login = async (req, res) => {
     );
 
     const userData = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    };
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  profileImage: user.profileImage,
+};
 
     res.status(200).json({
       message: "Login Successful",
@@ -380,12 +382,19 @@ export const updateProfile = async (req, res) => {
       });
     }
 
+    // Update Name
     if (name && name.trim() !== "") {
       user.name = name;
     }
 
+    // Update Password
     if (password && password.trim() !== "") {
       user.password = await bcrypt.hash(password, 10);
+    }
+
+    // Update Profile Picture
+    if (req.file) {
+      user.profileImage = req.file.filename;
     }
 
     await user.save();
@@ -398,8 +407,10 @@ export const updateProfile = async (req, res) => {
         email: user.email,
         role: user.role,
         resume: user.resume,
+        profileImage: user.profileImage,
       },
     });
+
   } catch (error) {
     res.status(500).json({
       message: error.message,

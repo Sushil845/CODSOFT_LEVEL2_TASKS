@@ -110,7 +110,7 @@ export const getApplicantsByJob = async (req, res) => {
     const applications = await Application.find({
       job: req.params.jobId,
     })
-      .populate("candidate", "name email resume")
+      .populate("candidate", "name email resume profileImage")
       .populate("job", "title company");
 
     res.status(200).json(applications);

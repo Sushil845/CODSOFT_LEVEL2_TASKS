@@ -1,5 +1,5 @@
 import Job from "../models/Job.js";
-
+import Application from "../models/Application.js";
 // Create Job
 export const createJob = async (req, res) => {
   try {
@@ -59,9 +59,7 @@ export const getAllJobs = async (req, res) => {
 
 };
 
-// Get Logged-in Employer Jobs
 export const getMyJobs = async (req, res) => {
-
   try {
 
     const jobs = await Job.find({
@@ -71,7 +69,24 @@ export const getMyJobs = async (req, res) => {
       "name email"
     );
 
-    res.status(200).json(jobs);
+    const jobsWithApplicants = await Promise.all(
+
+      jobs.map(async (job) => {
+
+        const applicantCount = await Application.countDocuments({
+          job: job._id
+        });
+
+        return {
+          ...job.toObject(),
+          applicantCount
+        };
+
+      })
+
+    );
+
+    res.status(200).json(jobsWithApplicants);
 
   } catch (error) {
 
@@ -80,7 +95,6 @@ export const getMyJobs = async (req, res) => {
     });
 
   }
-
 };
 
 // Get Single Job

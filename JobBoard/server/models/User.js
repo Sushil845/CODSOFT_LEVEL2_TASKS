@@ -29,6 +29,12 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
 
+    // ✅ Profile Picture
+    profileImage: {
+      type: String,
+      default: "",
+    },
+
     // Login Attempts
     loginAttempts: {
       type: Number,
