@@ -1,12 +1,15 @@
+import "./CandidateDashboard.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import "./CandidateDashboard.css";
+import { toast } from "react-toastify";
 
 function CandidateDashboard() {
+
   const [applications, setApplications] = useState([]);
   const [profile, setProfile] = useState(null);
 
   const [showEditModal, setShowEditModal] = useState(false);
+
   const [editName, setEditName] = useState("");
   const [editPassword, setEditPassword] = useState("");
 
@@ -17,14 +20,22 @@ function CandidateDashboard() {
   const imageInputRef = useRef(null);
 
   const token = localStorage.getItem("token");
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     fetchApplications();
     fetchProfile();
   }, []);
-    const fetchApplications = async () => {
+
+  // ===============================
+  // Fetch Candidate Applications
+  // ===============================
+
+  const fetchApplications = async () => {
+
     try {
+
       const res = await axios.get(
         "http://localhost:5000/api/applications/my",
         {
@@ -35,13 +46,23 @@ function CandidateDashboard() {
       );
 
       setApplications(res.data);
+
     } catch (error) {
+
       console.log(error);
+
     }
+
   };
 
+  // ===============================
+  // Fetch Profile
+  // ===============================
+
   const fetchProfile = async () => {
+
     try {
+
       const res = await axios.get(
         "http://localhost:5000/api/auth/profile",
         {
@@ -55,8 +76,7 @@ function CandidateDashboard() {
 
       setEditName(res.data.name);
 
-      // Update localStorage so Navbar and other pages
-      // always have the latest profile information
+      // Update Navbar data
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -69,294 +89,325 @@ function CandidateDashboard() {
       );
 
     } catch (error) {
+
       console.log(error);
+
     }
+
   };
-    const uploadResume = async (e) => {
-    const file = e.target.files[0];
+// ===============================
+// Upload Resume
+// ===============================
 
-    if (!file) return;
+const uploadResume = async (e) => {
 
-    if (file.type !== "application/pdf") {
-      alert("Please upload PDF only.");
-      return;
-    }
+  const file = e.target.files[0];
 
-    try {
-      const formData = new FormData();
-      formData.append("resume", file);
+  if (!file) return;
 
-      await axios.post(
-        "http://localhost:5000/api/resume/upload",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+  if (file.type !== "application/pdf") {
+    toast.warning("Please upload PDF only.");
+    return;
+  }
 
-      alert("Resume uploaded successfully.");
-
-      fetchProfile();
-    } catch (error) {
-      console.log(error);
-      alert("Resume upload failed.");
-    }
-  };
-
-  // Upload Profile Picture
-  const uploadProfileImage = async (e) => {
-    const file = e.target.files[0];
-
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      alert("Please select a valid image.");
-      return;
-    }
+  try {
 
     const formData = new FormData();
-    formData.append("profileImage", file);
 
-    try {
-      const res = await axios.put(
-        "http://localhost:5000/api/auth/profile",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+    formData.append("resume", file);
 
-      localStorage.setItem(
-  "user",
-  JSON.stringify(res.data.user)
-);
-
-// Tell Navbar to refresh
-window.dispatchEvent(new Event("userUpdated"));
-
-alert("Profile picture updated successfully.");
-
-fetchProfile();
-
-    } catch (error) {
-      console.log(error);
-      alert("Profile picture upload failed.");
-    }
-  };
-    const updateProfile = async () => {
-    try {
-      const formData = new FormData();
-
-      formData.append("name", editName);
-
-      if (editPassword.trim() !== "") {
-        formData.append("password", editPassword);
+    await axios.post(
+      "http://localhost:5000/api/resume/upload",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
       }
+    );
 
-      const res = await axios.put(
-        "http://localhost:5000/api/auth/profile",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+    toast.success("Resume uploaded successfully.");
 
-      alert("Profile Updated Successfully");
+    fetchProfile();
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(res.data.user)
-      );
+  } catch (error) {
 
-      setShowEditModal(false);
-      setEditPassword("");
+    console.log(error);
 
-      fetchProfile();
+    toast.error("Resume upload failed.");
 
-      window.location.reload();
+  }
 
-    } catch (error) {
-      console.log(error);
-      alert("Profile Update Failed");
+};
+
+// ===============================
+// Upload Profile Picture
+// ===============================
+
+const uploadProfileImage = async (e) => {
+
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    toast.warning("Please select a valid image.");
+    return;
+  }
+
+  const formData = new FormData();
+
+  formData.append("profileImage", file);
+
+  try {
+
+    const res = await axios.put(
+      "http://localhost:5000/api/auth/profile",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify(res.data.user)
+    );
+
+    window.dispatchEvent(new Event("userUpdated"));
+
+    toast.success("Profile picture updated successfully.");
+
+    fetchProfile();
+
+  } catch (error) {
+
+    console.log(error);
+
+    toast.error("Profile picture upload failed.");
+
+  }
+
+};
+
+// ===============================
+// Update Profile
+// ===============================
+
+const updateProfile = async () => {
+
+  try {
+
+    const formData = new FormData();
+
+    formData.append("name", editName);
+
+    if (editPassword.trim() !== "") {
+      formData.append("password", editPassword);
     }
-  };
 
-  return (
-    <div className="candidate-dashboard">
+    const res = await axios.put(
+      "http://localhost:5000/api/auth/profile",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
-      <div className="welcome-card">
-        <h1>👋 Welcome Back, {user?.name}</h1>
-        <p>
-          Manage your applications and track your career journey.
-        </p>
-      </div>
+    toast.success("Profile Updated Successfully");
 
-      <div className="stats-container">
+    localStorage.setItem(
+      "user",
+      JSON.stringify(res.data.user)
+    );
 
-        <div className="stat-card">
-          <h2>{applications.length}</h2>
-          <p>Applied Jobs</p>
-        </div>
+    setShowEditModal(false);
+    setEditPassword("");
 
-        <div className="stat-card">
-          <h2>0</h2>
-          <p>Saved Jobs</p>
-        </div>
+    fetchProfile();
 
-        <div className="stat-card">
-          <h2>
-            {
-              applications.filter(
-                (app) => app.status === "Approved"
-              ).length
+    window.location.reload();
+
+  } catch (error) {
+
+    console.log(error);
+
+    toast.error("Profile Update Failed");
+
+  }
+
+};
+
+return (
+
+<div className="candidate-dashboard">
+
+  {/* Welcome */}
+
+  <div className="welcome-card">
+
+    <h1>
+      Welcome back, {user?.name || "Candidate"} 👋
+    </h1>
+
+    <p>
+      Manage your applications and track your career journey.
+    </p>
+
+  </div>
+
+  {/* Statistics */}
+
+  <div className="stats-container">
+
+    <div className="stat-card">
+      <h2>{applications.length}</h2>
+      <p>Applied Jobs</p>
+    </div>
+
+    <div className="stat-card">
+      <h2>0</h2>
+      <p>Saved Jobs</p>
+    </div>
+
+    <div className="stat-card">
+      <h2>
+        {
+          applications.filter(
+            (app) => app.status === "Approved"
+          ).length
+        }
+      </h2>
+      <p>Interviews</p>
+    </div>
+
+  </div>
+
+  {/* Profile */}
+
+  <div className="profile-card">
+
+    <h2>👤 My Profile</h2>
+
+    {profile && (
+
+      <>
+
+        <div className="profile-image-container">
+
+          <img
+            src={
+              profile.profileImage
+                ? `http://localhost:5000/uploads/${profile.profileImage}`
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    profile.name
+                  )}&background=2563eb&color=fff&size=200`
             }
-          </h2>
-          <p>Interviews</p>
+            alt="Profile"
+            className="candidate-profile-image"
+          />
+
+          <button
+            className="change-picture-btn"
+            onClick={() => imageInputRef.current.click()}
+          >
+            📷 Change Profile Picture
+          </button>
+
         </div>
 
-      </div>
-            <div className="applications-card">
+        <input
+          type="file"
+          accept="image/*"
+          ref={imageInputRef}
+          onChange={uploadProfileImage}
+          style={{ display: "none" }}
+        />
 
-        <h2>👤 My Profile</h2>
+        <p><strong>Name:</strong> {profile.name}</p>
 
-        {profile && (
-          <>
+        <p><strong>Email:</strong> {profile.email}</p>
 
-            {/* Profile Picture */}
+        <p><strong>Role:</strong> {profile.role}</p>
 
-            <div
-              style={{
-                textAlign: "center",
-                marginBottom: "20px",
-              }}
+        <input
+          type="file"
+          accept=".pdf"
+          ref={fileInputRef}
+          onChange={uploadResume}
+          style={{ display: "none" }}
+        />
+
+        <div className="resume-buttons">
+
+          <button
+            onClick={() => fileInputRef.current.click()}
+          >
+            {
+              profile.resume
+                ? "📤 Change Resume"
+                : "📤 Upload Resume"
+            }
+          </button>
+
+          {profile.resume && (
+
+            <a
+              href={`http://localhost:5000/uploads/${profile.resume}`}
+              target="_blank"
+              rel="noreferrer"
             >
-              <img
-                src={
-                  profile.profileImage
-                    ? `http://localhost:5000/uploads/${profile.profileImage}`
-                    : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                        profile.name
-                      )}&background=2563eb&color=fff&size=200`
-                }
-                alt="Profile"
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "4px solid #2563eb",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-                }}
-              />
-
-              <br />
-
-              <button
-                style={{ marginTop: "15px" }}
-                onClick={() => imageInputRef.current.click()}
-              >
-                📷 Change Profile Picture
+              <button>
+                📄 View Resume
               </button>
-            </div>
+            </a>
 
-            {/* Hidden Image Input */}
+          )}
 
-            <input
-              type="file"
-              accept="image/*"
-              ref={imageInputRef}
-              onChange={uploadProfileImage}
-              style={{ display: "none" }}
-            />
+          {profile.resume && (
 
-            <p>
-              <strong>Name:</strong> {profile.name}
-            </p>
-
-            <p>
-              <strong>Email:</strong> {profile.email}
-            </p>
-
-            <p>
-              <strong>Role:</strong> {profile.role}
-            </p>
-
-            {/* Resume Upload */}
-
-            <input
-              type="file"
-              accept=".pdf"
-              ref={fileInputRef}
-              onChange={uploadResume}
-              style={{ display: "none" }}
-            />
-
-            <div className="resume-buttons">
-
-              <button
-                onClick={() => fileInputRef.current.click()}
-              >
-                {profile.resume
-                  ? "📤 Change Resume"
-                  : "📤 Upload Resume"}
-              </button>
-                            {profile.resume && (
-                <a
-                  href={`http://localhost:5000/uploads/${profile.resume}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <button>
-                    📄 View Resume
-                  </button>
-                </a>
-              )}
-
-              {profile.resume && (
-                <a
-                  href={`http://localhost:5000/uploads/${profile.resume}`}
-                  download
-                >
-                  <button>
-                    ⬇ Download Resume
-                  </button>
-                </a>
-              )}
-
-            </div>
-
-            {!profile.resume && (
-              <p
-                style={{
-                  marginTop: "15px",
-                  color: "#ef4444",
-                  fontWeight: "600",
-                }}
-              >
-                No Resume Uploaded
-              </p>
-            )}
-
-            <button
-              style={{ marginTop: "20px" }}
-              onClick={() => setShowEditModal(true)}
+            <a
+              href={`http://localhost:5000/uploads/${profile.resume}`}
+              download
             >
-              ✏ Edit Profile
-            </button>
+              <button>
+                ⬇ Download Resume
+              </button>
+            </a>
 
-          </>
+          )}
+
+        </div>
+
+        {!profile.resume && (
+
+          <p className="no-resume">
+            No Resume Uploaded
+          </p>
+
         )}
 
-      </div>
+        <button
+          className="edit-profile-btn"
+          onClick={() => setShowEditModal(true)}
+        >
+          ✏ Edit Profile
+        </button>
+
+      </>
+
+    )}
+
+  </div>
+
+            {/* Recent Applications */}
 
       <div className="applications-card">
 
@@ -384,38 +435,15 @@ fetchProfile();
 
                   <td>{app.job?.company}</td>
 
-                  <td>                    {app.status === "Pending" && (
-                      <span
-                        style={{
-                          color: "#f59e0b",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        🟡 Pending
-                      </span>
-                    )}
+                  <td>
 
-                    {app.status === "Approved" && (
-                      <span
-                        style={{
-                          color: "#16a34a",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        🟢 Approved
-                      </span>
-                    )}
-
-                    {app.status === "Rejected" && (
-                      <span
-                        style={{
-                          color: "#dc2626",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        🔴 Rejected
-                      </span>
-                    )}
+                    <span
+                      className={`status-badge ${app.status.toLowerCase()}`}
+                    >
+                      {app.status === "Pending" && "🟡 Pending"}
+                      {app.status === "Approved" && "🟢 Approved"}
+                      {app.status === "Rejected" && "🔴 Rejected"}
+                    </span>
 
                   </td>
 
@@ -429,10 +457,7 @@ fetchProfile();
 
                 <td
                   colSpan="3"
-                  style={{
-                    textAlign: "center",
-                    padding: "30px",
-                  }}
+                  className="no-data"
                 >
                   No applications found.
                 </td>
@@ -447,17 +472,21 @@ fetchProfile();
 
       </div>
 
+      {/* Profile Completion */}
+
       <div className="profile-card">
 
         <h2>Profile Completion</h2>
 
         <div className="progress-bar">
+
           <div
             className="progress"
             style={{
               width: `${profile?.profileCompletion || 0}%`,
             }}
           ></div>
+
         </div>
 
         <p>{profile?.profileCompletion || 0}% Completed</p>
@@ -469,7 +498,11 @@ fetchProfile();
         </button>
 
       </div>
-            {showEditModal && (
+
+      {/* Edit Profile Modal */}
+
+      {showEditModal && (
+
         <div className="modal-overlay">
 
           <div className="edit-modal">
@@ -477,6 +510,7 @@ fetchProfile();
             <h2>Edit Profile</h2>
 
             <div className="form-group">
+
               <label>Name</label>
 
               <input
@@ -484,9 +518,11 @@ fetchProfile();
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
               />
+
             </div>
 
             <div className="form-group">
+
               <label>Email</label>
 
               <input
@@ -494,9 +530,11 @@ fetchProfile();
                 value={profile?.email || ""}
                 disabled
               />
+
             </div>
 
             <div className="form-group">
+
               <label>New Password</label>
 
               <input
@@ -505,6 +543,7 @@ fetchProfile();
                 value={editPassword}
                 onChange={(e) => setEditPassword(e.target.value)}
               />
+
             </div>
 
             <div className="modal-buttons">
@@ -532,11 +571,13 @@ fetchProfile();
           </div>
 
         </div>
+
       )}
 
     </div>
+
   );
+
 }
 
 export default CandidateDashboard;
-                  

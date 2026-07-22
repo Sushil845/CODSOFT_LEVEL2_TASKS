@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 import "../styles/Login.css";
 
@@ -21,14 +22,18 @@ function VerifyOtp() {
         }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
-      navigate("/reset-password", {
-        state: { email },
-      });
+      setTimeout(() => {
+        navigate("/reset-password", {
+          state: { email },
+        });
+      }, 1500);
 
     } catch (err) {
-      alert(err.response?.data?.message || "OTP Verification Failed");
+      toast.error(
+        err.response?.data?.message || "OTP Verification Failed"
+      );
     }
   };
 

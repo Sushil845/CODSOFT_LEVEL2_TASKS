@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   FaBriefcase,
   FaBars,
@@ -11,27 +12,38 @@ function Navbar() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-const [user, setUser] = useState(
-  JSON.parse(localStorage.getItem("user"))
-);
+
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-useEffect(() => {
-  const updateUser = () => {
-    setUser(JSON.parse(localStorage.getItem("user")));
-  };
 
-  window.addEventListener("userUpdated", updateUser);
+  useEffect(() => {
+    const updateUser = () => {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    };
 
-  return () => {
-    window.removeEventListener("userUpdated", updateUser);
-  };
-}, []);
+    window.addEventListener("userUpdated", updateUser);
+
+    return () => {
+      window.removeEventListener(
+        "userUpdated",
+        updateUser
+      );
+    };
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+
+    setUser(null);
+    setDropdownOpen(false);
+    setMenuOpen(false);
+
+    toast.success("Logged out successfully!");
 
     navigate("/login");
   };
@@ -47,6 +59,7 @@ useEffect(() => {
           onClick={() => setMenuOpen(false)}
         >
           <FaBriefcase className="logo-icon" />
+
           <div>
             <h2>CareerNest</h2>
             <span>Find Your Dream Job</span>
@@ -62,68 +75,97 @@ useEffect(() => {
         </div>
 
         {/* Navigation */}
-        <div className={menuOpen ? "nav-menu active" : "nav-menu"}>
+        <div
+          className={
+            menuOpen ? "nav-menu active" : "nav-menu"
+          }
+        >
 
           {/* Guest & Candidate */}
           {(!token || user?.role === "candidate") && (
             <ul className="nav-links">
 
               <li>
-                <NavLink to="/" onClick={() => setMenuOpen(false)}>
+                <NavLink
+                  to="/"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Home
                 </NavLink>
               </li>
 
               <li>
-                <NavLink to="/jobs" onClick={() => setMenuOpen(false)}>
+                <NavLink
+                  to="/jobs"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Jobs
                 </NavLink>
               </li>
 
               <li>
-                <NavLink to="/companies" onClick={() => setMenuOpen(false)}>
+                <NavLink
+                  to="/companies"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Companies
                 </NavLink>
               </li>
 
               <li>
-                <NavLink to="/about" onClick={() => setMenuOpen(false)}>
+                <NavLink
+                  to="/about"
+                  onClick={() => setMenuOpen(false)}
+                >
                   About
                 </NavLink>
               </li>
 
-              {token && user?.role === "candidate" && (
-                <li>
-                  <NavLink
-                    to="/saved-jobs"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    ❤️ Saved Jobs
-                  </NavLink>
-                </li>
-              )}
-
+              {token &&
+                user?.role === "candidate" && (
+                  <li>
+                    <NavLink
+                      to="/saved-jobs"
+                      onClick={() =>
+                        setMenuOpen(false)
+                      }
+                    >
+                      ❤️ Saved Jobs
+                    </NavLink>
+                  </li>
+                )}
             </ul>
           )}
 
           {/* Employer */}
-          {token && user?.role === "employer" && (
-            <ul className="nav-links">
+          {token &&
+            user?.role === "employer" && (
+              <ul className="nav-links">
 
-              <li>
-                <NavLink to="/employer">
-                  Dashboard
-                </NavLink>
-              </li>
+                <li>
+                  <NavLink
+                    to="/employer"
+                    onClick={() =>
+                      setMenuOpen(false)
+                    }
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
 
-              <li>
-                <NavLink to="/post-job">
-                  Post Job
-                </NavLink>
-              </li>
+                <li>
+                  <NavLink
+                    to="/post-job"
+                    onClick={() =>
+                      setMenuOpen(false)
+                    }
+                  >
+                    Post Job
+                  </NavLink>
+                </li>
 
-            </ul>
-          )}
+              </ul>
+            )}
 
           {/* Right Side */}
           <div className="nav-buttons">
@@ -148,42 +190,52 @@ useEffect(() => {
               <div className="profile">
 
                 <div
-  className="profile-btn"
-  onClick={() => setDropdownOpen(!dropdownOpen)}
->
+                  className="profile-btn"
+                  onClick={() =>
+                    setDropdownOpen(
+                      !dropdownOpen
+                    )
+                  }
+                >
+                  <img
+                    src={
+                      user?.profileImage
+                        ? `http://localhost:5000/uploads/${user.profileImage}`
+                        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            user?.name || "User"
+                          )}&background=2563eb&color=fff`
+                    }
+                    alt="Profile"
+                    className="navbar-profile-image"
+                  />
 
-  <img
-    src={
-      user?.profileImage
-        ? `http://localhost:5000/uploads/${user.profileImage}`
-        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-            user?.name || "User"
-          )}&background=2563eb&color=fff`
-    }
-    alt="Profile"
-    className="navbar-profile-image"
-  />
+                  <span>{user?.name}</span>
+                </div>
 
-  <span>
-    {user?.name}
-  </span>
-
-</div>
                 {dropdownOpen && (
                   <div className="dropdown">
 
-                    {user?.role === "candidate" ? (
+                    {user?.role ===
+                    "candidate" ? (
                       <>
                         <NavLink
                           to="/candidate"
-                          onClick={() => setDropdownOpen(false)}
+                          onClick={() =>
+                            setDropdownOpen(
+                              false
+                            )
+                          }
                         >
                           Dashboard
                         </NavLink>
 
                         <NavLink
                           to="/saved-jobs"
-                          onClick={() => setDropdownOpen(false)}
+                          onClick={() =>
+                            setDropdownOpen(
+                              false
+                            )
+                          }
                         >
                           ❤️ Saved Jobs
                         </NavLink>
@@ -192,21 +244,31 @@ useEffect(() => {
                       <>
                         <NavLink
                           to="/employer"
-                          onClick={() => setDropdownOpen(false)}
+                          onClick={() =>
+                            setDropdownOpen(
+                              false
+                            )
+                          }
                         >
                           Employer Dashboard
                         </NavLink>
 
                         <NavLink
                           to="/post-job"
-                          onClick={() => setDropdownOpen(false)}
+                          onClick={() =>
+                            setDropdownOpen(
+                              false
+                            )
+                          }
                         >
                           Post Job
                         </NavLink>
                       </>
                     )}
 
-                    <button onClick={logout}>
+                    <button
+                      onClick={logout}
+                    >
                       Logout
                     </button>
 

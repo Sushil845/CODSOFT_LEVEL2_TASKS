@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope } from "react-icons/fa";
+import { toast } from "react-toastify";
 import axios from "axios";
 import "../styles/Login.css";
 
@@ -16,14 +17,18 @@ function ForgotPassword() {
         { email }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
-      navigate("/verify-otp", {
-        state: { email },
-      });
+      setTimeout(() => {
+        navigate("/verify-otp", {
+          state: { email },
+        });
+      }, 1500);
 
     } catch (err) {
-      alert(err.response?.data?.message || "Something went wrong");
+      toast.error(
+        err.response?.data?.message || "Something went wrong"
+      );
     }
   };
 

@@ -3,6 +3,7 @@ import { FaUser, FaEnvelope, FaLock, FaBriefcase } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function RegisterForm() {
 
@@ -27,7 +28,7 @@ function RegisterForm() {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -43,13 +44,15 @@ function RegisterForm() {
         }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
 
     } catch (err) {
 
-      alert(err.response?.data?.message || "Registration Failed");
+      toast.error(err.response?.data?.message || "Registration Failed");
 
     }
 

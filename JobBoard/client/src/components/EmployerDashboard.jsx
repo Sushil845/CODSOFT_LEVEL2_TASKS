@@ -2,6 +2,7 @@ import "./EmployerDashboard.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function EmployerDashboard() {
 
@@ -82,6 +83,11 @@ function EmployerDashboard() {
 
     if (!file) return;
 
+    if (!file.type.startsWith("image/")) {
+      toast.warning("Please select a valid image.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -110,13 +116,13 @@ function EmployerDashboard() {
 
       fetchProfile();
 
-      alert("Profile picture updated successfully.");
+      toast.success("Profile picture updated successfully.");
 
     } catch (error) {
 
       console.log(error);
 
-      alert("Upload failed");
+      toast.error("Upload failed");
 
     }
 
@@ -143,13 +149,13 @@ function EmployerDashboard() {
         }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       fetchMyJobs();
 
     } catch (error) {
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
         "Failed to delete job."
       );
@@ -169,7 +175,7 @@ function EmployerDashboard() {
         <div>
 
           <h1>
-            👋 Welcome Back {profile?.name || "Employer"}
+            Welcome back, {profile?.name || "Employer"} 👋
           </h1>
 
           <p>
@@ -188,10 +194,9 @@ function EmployerDashboard() {
           </button>
         </Link>
 
-      
-
       </div>
-            {/* Statistics */}
+
+      {/* Statistics */}
 
       <div className="stats-grid">
 
@@ -219,7 +224,7 @@ function EmployerDashboard() {
           <p>Interviews</p>
         </div>
 
-</div>
+      </div>
 
       {/* Employer Profile */}
 
@@ -239,13 +244,15 @@ function EmployerDashboard() {
 
         <h3>{profile?.name}</h3>
 
-       
+        <p className="profile-email">
+          {profile?.email}
+        </p>
 
         <span className="profile-role">
           Employer
         </span>
 
-        <br /><br />
+        <br />
 
         <button
           className="edit-btn"
@@ -261,6 +268,7 @@ function EmployerDashboard() {
           onChange={uploadProfileImage}
           style={{ display: "none" }}
         />
+
       </div>
 
       {/* Jobs Section */}

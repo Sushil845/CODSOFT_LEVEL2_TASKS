@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -31,21 +33,16 @@ function App() {
 
         <Route path="/register" element={<Register />} />
 
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+
+        <Route path="/reset-password" element={<ResetPassword />} />
+
         <Route path="/job/:id" element={<JobDetails />} />
 
         <Route path="/saved-jobs" element={<SavedJobs />} />
-        <Route
-  path="/forgot-password"
-  element={<ForgotPassword />}
-/>
-<Route
-  path="/verify-otp"
-  element={<VerifyOtp />}
-/>
-<Route
-  path="/reset-password"
-  element={<ResetPassword />}
-/>
+
         <Route
           path="/employer"
           element={
@@ -64,7 +61,6 @@ function App() {
           }
         />
 
-        {/* NEW EDIT JOB ROUTE */}
         <Route
           path="/edit-job/:id"
           element={
@@ -93,6 +89,16 @@ function App() {
         <Route path="/about" element={<About />} />
 
       </Routes>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme="colored"
+      />
     </BrowserRouter>
   );
 }

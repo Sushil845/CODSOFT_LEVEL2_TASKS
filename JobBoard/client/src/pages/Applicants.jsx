@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Applicants() {
   const { jobId } = useParams();
@@ -44,11 +45,16 @@ function Applicants() {
         }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       fetchApplicants();
+
     } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong");
+
+      toast.error(
+        error.response?.data?.message || "Something went wrong"
+      );
+
     }
   };
 
@@ -197,7 +203,7 @@ function Applicants() {
                       </a>
 
                     </>
-                                      ) : (
+                  ) : (
 
                     <span
                       style={{

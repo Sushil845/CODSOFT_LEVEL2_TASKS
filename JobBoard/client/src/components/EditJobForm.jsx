@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function EditJobForm() {
 
@@ -77,13 +78,15 @@ function EditJobForm() {
 
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
-      navigate("/employer");
+      setTimeout(() => {
+        navigate("/employer");
+      }, 1500);
 
     } catch (error) {
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
         "Failed to update job"
       );

@@ -1,6 +1,6 @@
-import Navbar from "../components/Navbar";
 import CandidateDashboard from "../components/CandidateDashboard";
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 function CandidatePage() {
   return (

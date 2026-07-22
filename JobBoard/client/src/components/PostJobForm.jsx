@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function PostJobForm() {
   const navigate = useNavigate();
@@ -37,10 +38,16 @@ function PostJobForm() {
         }
       );
 
-      alert(res.data.message);
-      navigate("/employer");
+      toast.success(res.data.message);
+
+      setTimeout(() => {
+        navigate("/employer");
+      }, 1500);
+
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to post job");
+      toast.error(
+        error.response?.data?.message || "Failed to post job"
+      );
     }
   };
 

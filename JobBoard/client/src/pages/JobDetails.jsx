@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import {
   saveJob,
   unsaveJob,
@@ -77,7 +79,7 @@ function JobDetails() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Please login to apply for this job.");
+      toast.warning("Please login to apply for this job.");
       return;
     }
 
@@ -94,38 +96,55 @@ function JobDetails() {
         }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
       setApplied(true);
+
     } catch (error) {
-      alert(
+
+      toast.error(
         error.response?.data?.message ||
-          "Failed to apply for job"
+        "Failed to apply for job"
       );
+
     }
   };
 
   const toggleSaveJob = async () => {
+
     if (!localStorage.getItem("token")) {
-      alert("Please login first.");
+      toast.warning("Please login first.");
       return;
     }
 
     try {
+
       if (saved) {
+
         const data = await unsaveJob(job._id);
-        alert(data.message);
+
+        toast.success(data.message);
+
         setSaved(false);
+
       } else {
+
         const data = await saveJob(job._id);
-        alert(data.message);
+
+        toast.success(data.message);
+
         setSaved(true);
+
       }
+
     } catch (error) {
-      alert(
+
+      toast.error(
         error.response?.data?.message ||
-          "Something went wrong"
+        "Something went wrong"
       );
+
     }
+
   };
 
   if (!job) {
@@ -141,7 +160,8 @@ function JobDetails() {
   const diffDays = Math.ceil(
     diffTime / (1000 * 60 * 60 * 24)
   );
-    return (
+
+  return (
     <section className="job-details-page">
       <div className="job-details-card">
 

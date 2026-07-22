@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import {
   getSavedJobs,
   unsaveJob,
@@ -11,6 +13,8 @@ import {
   FaBuilding,
   FaTrash,
 } from "react-icons/fa";
+
+import Layout from "../components/Layout";
 
 import "./SavedJobs.css";
 
@@ -38,12 +42,14 @@ function SavedJobs() {
       await unsaveJob(jobId);
 
       setSavedJobs(
-        savedJobs.filter((item) => item.job._id !== jobId)
+        savedJobs.filter(
+          (item) => item.job._id !== jobId
+        )
       );
 
-      alert("Job removed from saved list.");
+      toast.success("Job removed from saved list.");
     } catch (error) {
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Failed to remove job."
       );
@@ -51,81 +57,86 @@ function SavedJobs() {
   };
 
   if (loading) {
-    return <h2 className="loading">Loading...</h2>;
+    return (
+      <Layout>
+        <h2 className="loading">Loading...</h2>
+      </Layout>
+    );
   }
 
   return (
-    <section className="saved-jobs-page">
+    <Layout>
+      <section className="saved-jobs-page">
+        <h1>❤️ Saved Jobs</h1>
 
-      <h1>❤️ Saved Jobs</h1>
+        {savedJobs.length === 0 ? (
+          <div className="empty">
+            <h2>No saved jobs yet.</h2>
 
-      {savedJobs.length === 0 ? (
-        <div className="empty">
-          <h2>No saved jobs yet.</h2>
-          <p>
-            Save jobs from the Job Details page and
-            they will appear here.
-          </p>
+            <p>
+              Save jobs from the Job Details page
+              and they will appear here.
+            </p>
 
-          <Link to="/jobs" className="browse-btn">
-            Browse Jobs
-          </Link>
-        </div>
-      ) : (
-        <div className="saved-grid">
-                  {savedJobs.map((item) => (
-            <div
-              key={item._id}
-              className="saved-card"
+            <Link
+              to="/jobs"
+              className="browse-btn"
             >
-              <h2>{item.job.title}</h2>
+              Browse Jobs
+            </Link>
+          </div>
+        ) : (
+          <div className="saved-grid">
+            {savedJobs.map((item) => (
+              <div
+                key={item._id}
+                className="saved-card"
+              >
+                <h2>{item.job.title}</h2>
 
-              <h3>{item.job.company}</h3>
+                <h3>{item.job.company}</h3>
 
-              <div className="saved-info">
+                <div className="saved-info">
+                  <p>
+                    <FaMapMarkerAlt />
+                    {item.job.location}
+                  </p>
 
-                <p>
-                  <FaMapMarkerAlt />
-                  {item.job.location}
-                </p>
+                  <p>
+                    <FaMoneyBillWave />
+                    {item.job.salary}
+                  </p>
 
-                <p>
-                  <FaMoneyBillWave />
-                  {item.job.salary}
-                </p>
+                  <p>
+                    <FaBuilding />
+                    {item.job.company}
+                  </p>
+                </div>
 
-                <p>
-                  <FaBuilding />
-                  {item.job.company}
-                </p>
+                <div className="saved-actions">
+                  <Link
+                    to={`/job/${item.job._id}`}
+                    className="details-btn"
+                  >
+                    View Details
+                  </Link>
 
+                  <button
+                    className="remove-btn"
+                    onClick={() =>
+                      removeSavedJob(item.job._id)
+                    }
+                  >
+                    <FaTrash />
+                    Remove
+                  </button>
+                </div>
               </div>
-
-              <div className="saved-actions">
-
-                <Link
-                  to={`/job/${item.job._id}`}
-                  className="details-btn"
-                >
-                  View Details
-                </Link>
-
-                <button
-                  className="remove-btn"
-                  onClick={() =>
-                    removeSavedJob(item.job._id)
-                  }
-                >
-                  <FaTrash />
-                  Remove
-                </button>
-
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
+            ))}
+          </div>
+        )}
+      </section>
+    </Layout>
   );
 }
 

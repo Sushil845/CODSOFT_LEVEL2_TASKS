@@ -7,7 +7,7 @@
     margin:40px auto;
     padding:20px;
     font-family:Arial,Helvetica,sans-serif;
-    background:#f8fafc;
+    background:#f1f5f9;
 }
 
 /* ===========================
@@ -18,23 +18,26 @@
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    background:linear-gradient(135deg,#2563eb 0%,#1d4ed8 45%,#4f46e5 100%);
     color:#fff;
     padding:35px 40px;
-    border-radius:22px;
+    border-radius:18px;
     margin-bottom:35px;
-    box-shadow:0 12px 25px rgba(0,0,0,.15);
+    box-shadow:0 12px 30px rgba(15,23,42,.12);
 }
 
 .dashboard-header h1{
     margin:0;
     font-size:38px;
     font-weight:700;
+    line-height:1.2;
 }
 
 .dashboard-header p{
     margin-top:12px;
-    font-size:18px;
+    font-size:17px;
+    line-height:1.6;
+    max-width:650px;
     opacity:.95;
 }
 
@@ -51,13 +54,13 @@
     font-size:17px;
     font-weight:600;
     cursor:pointer;
-    transition:.3s;
+    transition:all .3s ease;
 }
 
 .post-job-btn:hover{
     background:#ea580c;
     transform:translateY(-3px);
-    box-shadow:0 12px 20px rgba(0,0,0,.18);
+    box-shadow:0 12px 25px rgba(234,88,12,.28);
 }
 
 /* ===========================
@@ -76,13 +79,14 @@
     border-radius:18px;
     padding:30px;
     text-align:center;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-    transition:.3s;
     border-top:5px solid #2563eb;
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
+    transition:all .3s ease;
 }
 
 .stat-card:hover{
-    transform:translateY(-8px) scale(1.02);
+    transform:translateY(-6px);
+    box-shadow:0 18px 38px rgba(37,99,235,.15);
 }
 
 .icon{
@@ -91,15 +95,16 @@
 }
 
 .stat-card h2{
-    font-size:50px;
+    font-size:48px;
     color:#2563eb;
     margin:10px 0;
+    font-weight:700;
 }
 
 .stat-card p{
     margin:0;
     color:#475569;
-    font-size:18px;
+    font-size:17px;
     font-weight:600;
 }
 
@@ -108,16 +113,18 @@
 =========================== */
 
 .jobs-section{
+    margin-top:20px;
     background:#fff;
     padding:30px;
-    border-radius:20px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    border-radius:18px;
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
     overflow:hidden;
 }
 
 .jobs-section h2{
     margin-bottom:25px;
-    font-size:42px;
+    font-size:36px;
+    font-weight:700;
     color:#1e293b;
 }
 
@@ -131,11 +138,13 @@ table{
 }
 
 thead th{
-    background:#2563eb;
+    background:#1d4ed8;
     color:#fff;
     padding:18px;
     text-align:left;
-    font-size:17px;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:.3px;
     position:sticky;
     top:0;
 }
@@ -143,11 +152,12 @@ thead th{
 tbody td{
     padding:18px;
     border-bottom:1px solid #e5e7eb;
-    font-size:16px;
+    font-size:15px;
+    color:#334155;
 }
 
 tbody tr{
-    transition:.25s;
+    transition:all .25s ease;
 }
 
 tbody tr:nth-child(even){
@@ -155,7 +165,7 @@ tbody tr:nth-child(even){
 }
 
 tbody tr:hover{
-    background:#eef4ff;
+    background:#f8fbff;
 }
 
 /* ===========================
@@ -168,8 +178,8 @@ tbody tr:hover{
     color:#15803d;
     padding:8px 18px;
     border-radius:50px;
+    font-size:13px;
     font-weight:700;
-    font-size:14px;
 }
 
 /* ===========================
@@ -181,13 +191,14 @@ tbody tr:hover{
 .delete-btn{
     border:none;
     color:#fff;
-    padding:10px 16px;
+    padding:11px 18px;
     border-radius:10px;
     cursor:pointer;
+    font-size:14px;
     font-weight:600;
-    min-width:135px;
+    min-width:130px;
     margin-right:8px;
-    transition:.25s;
+    transition:all .25s ease;
 }
 
 .view-btn{
@@ -196,6 +207,7 @@ tbody tr:hover{
 
 .view-btn:hover{
     background:#1d4ed8;
+    transform:translateY(-2px);
 }
 
 .edit-btn{
@@ -204,6 +216,7 @@ tbody tr:hover{
 
 .edit-btn:hover{
     background:#d97706;
+    transform:translateY(-2px);
 }
 
 .delete-btn{
@@ -212,19 +225,24 @@ tbody tr:hover{
 
 .delete-btn:hover{
     background:#dc2626;
+    transform:translateY(-2px);
 }
-
 /* ===========================
    Empty State
 =========================== */
 
 .jobs-section h3{
     color:#2563eb;
-    margin-bottom:10px;
+    margin-top:10px;
+    margin-bottom:12px;
+    font-size:28px;
+    font-weight:700;
 }
 
 .jobs-section p{
     color:#64748b;
+    font-size:16px;
+    line-height:1.6;
 }
 
 /* ===========================
@@ -233,85 +251,121 @@ tbody tr:hover{
 
 @media(max-width:992px){
 
+.employer-dashboard{
+    padding:15px;
+}
+
 .dashboard-header{
     flex-direction:column;
-    gap:25px;
     text-align:center;
+    gap:25px;
+    padding:30px 25px;
 }
 
 .dashboard-header h1{
-    font-size:34px;
+    font-size:32px;
 }
 
 .dashboard-header p{
     font-size:16px;
 }
 
-table{
-    display:block;
-    overflow-x:auto;
-}
-
-.view-btn,
-.edit-btn,
-.delete-btn{
-    display:block;
+.post-job-btn{
     width:100%;
-    margin:8px 0;
+    max-width:280px;
 }
 
 .stats-grid{
     grid-template-columns:1fr;
 }
 
+.jobs-section{
+    padding:20px;
 }
+
+table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+}
+
+.view-btn,
+.edit-btn,
+.delete-btn{
+    width:100%;
+    display:block;
+    margin:8px 0;
+}
+
+.profile-card{
+    margin:30px auto;
+}
+
+}
+
 /* ===========================
    Employer Profile Card
 =========================== */
 
 .profile-card{
-    width:260px;
-    padding:18px;
-    margin:30px 0 35px;
+    width:420px;
+    max-width:100%;
+    padding:25px;
+    margin:30px 0;
     background:#fff;
     border-radius:18px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
 
     display:flex;
     flex-direction:column;
     align-items:center;
     text-align:center;
+
+    transition:all .3s ease;
+}
+
+.profile-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 18px 38px rgba(37,99,235,.15);
 }
 
 .profile-image{
-    width:85px;
-    height:85px;
+    width:110px;
+    height:110px;
     border-radius:50%;
     object-fit:cover;
-    border:3px solid #2563eb;
-    margin-bottom:12px;
+
+    border:4px solid #fff;
+    box-shadow:0 0 0 4px #2563eb;
+
+    margin-bottom:15px;
 }
 
 .profile-card h3{
-    margin:6px 0;
-    font-size:24px;
+    margin:8px 0;
+    font-size:26px;
     font-weight:700;
     color:#1e293b;
 }
-
-.profile-card p{
-    margin:2px 0;
-    font-size:14px;
+.profile-email{
+    margin:6px 0 14px;
     color:#64748b;
+    font-size:14px;
     word-break:break-word;
 }
 
+.profile-card p{
+    margin:3px 0;
+    color:#64748b;
+    font-size:14px;
+}
+
 .profile-role{
-    margin:12px 0 16px;
-    padding:6px 16px;
+    margin:15px 0 20px;
+    padding:8px 20px;
     background:#dbeafe;
     color:#2563eb;
-    border-radius:20px;
+    border-radius:50px;
     font-size:13px;
     font-weight:600;
 }
@@ -323,13 +377,42 @@ table{
     border:none;
     padding:12px;
     border-radius:10px;
-    cursor:pointer;
     font-size:15px;
     font-weight:600;
-    transition:.3s;
+    cursor:pointer;
+    transition:all .3s ease;
 }
 
 .profile-btn:hover{
     background:#1d4ed8;
     transform:translateY(-2px);
+}
+
+/* Change Picture Button */
+
+.profile-card .edit-btn{
+    width:85%;
+    margin:0 auto;
+    display:block;
+}
+/* ===========================
+   Scrollbar
+=========================== */
+
+::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#e2e8f0;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#94a3b8;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#64748b;
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 import "../styles/Login.css";
 
@@ -14,7 +15,8 @@ function ResetPassword() {
 
   const handleResetPassword = async () => {
     if (password !== confirmPassword) {
-      return alert("Passwords do not match.");
+      toast.error("Passwords do not match.");
+      return;
     }
 
     try {
@@ -26,12 +28,16 @@ function ResetPassword() {
         }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
 
     } catch (err) {
-      alert(err.response?.data?.message || "Password Reset Failed");
+      toast.error(
+        err.response?.data?.message || "Password Reset Failed"
+      );
     }
   };
 

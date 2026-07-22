@@ -3,6 +3,7 @@ import "../styles/Login.css";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ function Login() {
 
       setShowForgotPassword(false);
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       if (res.data.user.role === "candidate") {
         navigate("/candidate");
@@ -46,15 +47,15 @@ function Login() {
       if (data?.showForgotPassword) {
         setShowForgotPassword(true);
 
-        alert(
-          "Invalid Credentials.\n\nHaving trouble signing in?\nPlease reset your password."
+        toast.error(
+          "Invalid Credentials! Having trouble signing in? Please reset your password."
         );
       } else if (data?.remainingAttempts !== undefined) {
-        alert(
-          `Invalid Credentials.\n\n${data.remainingAttempts} attempt(s) remaining.`
+        toast.warning(
+          `Invalid Credentials! ${data.remainingAttempts} attempt(s) remaining.`
         );
       } else {
-        alert(data?.message || "Login Failed");
+        toast.error(data?.message || "Login Failed");
       }
     }
   };
