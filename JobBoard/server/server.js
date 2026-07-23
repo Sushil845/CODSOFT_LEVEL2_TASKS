@@ -36,9 +36,11 @@ app.use("/api/test-email", testEmailRoute);
 // Serve uploaded resume files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.get("/", (req, res) => {
-    res.send("🚀 CareerNest Backend Running");
-});
+app.use(express.static('./../client/dist'))
+
+app.get('/*', (req, res)=>{
+    res.sendFile('index.html', {root: '../client/dist'});
+})
 
 const PORT = process.env.PORT || 5000;
 
