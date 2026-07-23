@@ -11,7 +11,7 @@ function FeaturedJobs() {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/jobs");
+      const res = await axios.get("https://codsoft-level2-tasks.onrender.com/api/jobs");
 
       // Show only first 6 jobs on Home page
       setJobs(res.data.slice(0, 6));

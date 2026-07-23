@@ -34,7 +34,7 @@ function JobDetails() {
   const fetchJob = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/jobs/${id}`
+        `https://codsoft-level2-tasks.onrender.com/api/jobs/${id}`
       );
 
       setJob(res.data);
@@ -50,7 +50,7 @@ function JobDetails() {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/applications/status/${id}`,
+        `https://codsoft-level2-tasks.onrender.com/api/applications/status/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ function JobDetails() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/applications",
+        "https://codsoft-level2-tasks.onrender.com/api/applications",
         {
           jobId: job._id,
         },

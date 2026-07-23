@@ -35,7 +35,7 @@ function RegisterForm() {
     try {
 
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://codsoft-level2-tasks.onrender.com/api/auth/register",
         {
           name: formData.name,
           email: formData.email,

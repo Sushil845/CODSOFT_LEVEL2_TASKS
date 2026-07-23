@@ -27,7 +27,7 @@ function EditJobForm() {
     try {
 
       const res = await axios.get(
-        `http://localhost:5000/api/jobs/${id}`
+        `https://codsoft-level2-tasks.onrender.com/api/jobs/${id}`
       );
 
       setJob(res.data);
@@ -59,7 +59,7 @@ function EditJobForm() {
 
       const res = await axios.put(
 
-        `http://localhost:5000/api/jobs/${id}`,
+        `https://codsoft-level2-tasks.onrender.com/api/jobs/${id}`,
 
         {
           title: job.title,

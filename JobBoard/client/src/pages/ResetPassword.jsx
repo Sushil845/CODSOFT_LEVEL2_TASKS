@@ -21,7 +21,7 @@ function ResetPassword() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/reset-password",
+        "https://codsoft-level2-tasks.onrender.com/api/auth/reset-password",
         {
           email,
           password,

@@ -23,7 +23,7 @@ function EmployerDashboard() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:5000/api/jobs/myjobs",
+        "https://codsoft-level2-tasks.onrender.com/api/jobs/myjobs",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ function EmployerDashboard() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:5000/api/auth/profile",
+        "https://codsoft-level2-tasks.onrender.com/api/auth/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ function EmployerDashboard() {
     try {
 
       const res = await axios.put(
-        "http://localhost:5000/api/auth/profile",
+        "https://codsoft-level2-tasks.onrender.com/api/auth/profile",
         formData,
         {
           headers: {
@@ -141,7 +141,7 @@ function EmployerDashboard() {
       const token = localStorage.getItem("token");
 
       const res = await axios.delete(
-        `http://localhost:5000/api/jobs/${id}`,
+        `https://codsoft-level2-tasks.onrender.com/api/jobs/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -233,7 +233,7 @@ function EmployerDashboard() {
         <img
           src={
             profile?.profileImage
-              ? `http://localhost:5000/uploads/${profile.profileImage}`
+              ? `https://codsoft-level2-tasks.onrender.com/uploads/${profile.profileImage}`
               : `https://ui-avatars.com/api/?name=${encodeURIComponent(
                   profile?.name || "Employer"
                 )}&background=2563eb&color=fff`

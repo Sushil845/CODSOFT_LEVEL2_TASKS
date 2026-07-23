@@ -13,7 +13,7 @@ function ForgotPassword() {
   const handleSendOtp = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/forgot-password",
+        "https://codsoft-level2-tasks.onrender.com/api/auth/forgot-password",
         { email }
       );
 

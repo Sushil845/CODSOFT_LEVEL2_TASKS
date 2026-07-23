@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/saved-jobs";
+const API_URL = "https://codsoft-level2-tasks.onrender.com/api/saved-jobs";
 
 const getToken = () => {
   return localStorage.getItem("token");

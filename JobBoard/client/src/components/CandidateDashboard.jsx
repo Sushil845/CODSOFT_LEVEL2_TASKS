@@ -37,7 +37,7 @@ function CandidateDashboard() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/applications/my",
+        "https://codsoft-level2-tasks.onrender.com/api/applications/my",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,7 +64,7 @@ function CandidateDashboard() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/auth/profile",
+        "https://codsoft-level2-tasks.onrender.com/api/auth/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -117,7 +117,7 @@ const uploadResume = async (e) => {
     formData.append("resume", file);
 
     await axios.post(
-      "http://localhost:5000/api/resume/upload",
+      "https://codsoft-level2-tasks.onrender.com/api/resume/upload",
       formData,
       {
         headers: {
@@ -163,7 +163,7 @@ const uploadProfileImage = async (e) => {
   try {
 
     const res = await axios.put(
-      "http://localhost:5000/api/auth/profile",
+      "https://codsoft-level2-tasks.onrender.com/api/auth/profile",
       formData,
       {
         headers: {
@@ -211,7 +211,7 @@ const updateProfile = async () => {
     }
 
     const res = await axios.put(
-      "http://localhost:5000/api/auth/profile",
+      "https://codsoft-level2-tasks.onrender.com/api/auth/profile",
       formData,
       {
         headers: {
@@ -305,7 +305,7 @@ return (
           <img
             src={
               profile.profileImage
-                ? `http://localhost:5000/uploads/${profile.profileImage}`
+                ? `https://codsoft-level2-tasks.onrender.com/uploads/${profile.profileImage}`
                 : `https://ui-avatars.com/api/?name=${encodeURIComponent(
                     profile.name
                   )}&background=2563eb&color=fff&size=200`
@@ -360,7 +360,7 @@ return (
           {profile.resume && (
 
             <a
-              href={`http://localhost:5000/uploads/${profile.resume}`}
+              href={`https://codsoft-level2-tasks.onrender.com/uploads/${profile.resume}`}
               target="_blank"
               rel="noreferrer"
             >
@@ -374,7 +374,7 @@ return (
           {profile.resume && (
 
             <a
-              href={`http://localhost:5000/uploads/${profile.resume}`}
+              href={`https://codsoft-level2-tasks.onrender.com/uploads/${profile.resume}`}
               download
             >
               <button>

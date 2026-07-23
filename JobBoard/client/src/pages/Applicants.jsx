@@ -21,7 +21,7 @@ function Applicants() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        `http://localhost:5000/api/applications/${jobId}`,
+        `https://codsoft-level2-tasks.onrender.com/api/applications/${jobId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ function Applicants() {
       const token = localStorage.getItem("token");
 
       const res = await axios.put(
-        `http://localhost:5000/api/applications/${id}/${action}`,
+        `https://codsoft-level2-tasks.onrender.com/api/applications/${id}/${action}`,
         {},
         {
           headers: {
@@ -123,7 +123,7 @@ function Applicants() {
                     <img
                       src={
                         app.candidate.profileImage
-                          ? `http://localhost:5000/uploads/${app.candidate.profileImage}`
+                          ? `https://codsoft-level2-tasks.onrender.com/uploads/${app.candidate.profileImage}`
                           : `https://ui-avatars.com/api/?name=${encodeURIComponent(
                               app.candidate.name
                             )}&background=2563eb&color=fff`
@@ -178,7 +178,7 @@ function Applicants() {
                       <br /><br />
 
                       <a
-                        href={`http://localhost:5000/uploads/${app.candidate.resume}`}
+                        href={`https://codsoft-level2-tasks.onrender.com/uploads/${app.candidate.resume}`}
                         target="_blank"
                         rel="noreferrer"
                         style={{ textDecoration: "none" }}
@@ -199,7 +199,7 @@ function Applicants() {
                       </a>
 
                       <a
-                        href={`http://localhost:5000/uploads/${app.candidate.resume}`}
+                        href={`https://codsoft-level2-tasks.onrender.com/uploads/${app.candidate.resume}`}
                         download
                         style={{ textDecoration: "none" }}
                       >
