@@ -274,7 +274,7 @@ return (
 
     <div className="stat-card">
       <h2>0</h2>
-      <p>Saved Jobs</p>
+      <p>Interviews</p>
     </div>
 
     <div className="stat-card">
@@ -285,7 +285,7 @@ return (
           ).length
         }
       </h2>
-      <p>Interviews</p>
+      <p>Saved Job</p>
     </div>
 
   </div>

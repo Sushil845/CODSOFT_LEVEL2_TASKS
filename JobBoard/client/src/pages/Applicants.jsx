@@ -8,6 +8,10 @@ function Applicants() {
 
   const [applications, setApplications] = useState([]);
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const applicantsPerPage = 5;
+
   useEffect(() => {
     fetchApplicants();
   }, []);
@@ -48,15 +52,26 @@ function Applicants() {
       toast.success(res.data.message);
 
       fetchApplicants();
-
     } catch (error) {
-
       toast.error(
         error.response?.data?.message || "Something went wrong"
       );
-
     }
   };
+
+  // Pagination Logic
+  const indexOfLastApplicant = currentPage * applicantsPerPage;
+  const indexOfFirstApplicant =
+    indexOfLastApplicant - applicantsPerPage;
+
+  const currentApplicants = applications.slice(
+    indexOfFirstApplicant,
+    indexOfLastApplicant
+  );
+
+  const totalPages = Math.ceil(
+    applications.length / applicantsPerPage
+  );
 
   return (
     <div
@@ -89,9 +104,9 @@ function Applicants() {
 
         <tbody>
 
-          {applications.length > 0 ? (
+          {currentApplicants.length > 0 ? (
 
-            applications.map((app) => (
+            currentApplicants.map((app) => (
 
               <tr key={app._id}>
 
@@ -203,7 +218,7 @@ function Applicants() {
                       </a>
 
                     </>
-                  ) : (
+                                      ) : (
 
                     <span
                       style={{
@@ -321,6 +336,86 @@ function Applicants() {
         </tbody>
 
       </table>
+
+      {/* Pagination */}
+
+      {applications.length > applicantsPerPage && (
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+            marginTop: "25px",
+            flexWrap: "wrap",
+          }}
+        >
+
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            style={{
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "6px",
+              cursor: currentPage === 1 ? "not-allowed" : "pointer",
+              background: "#2563eb",
+              color: "#fff",
+              opacity: currentPage === 1 ? 0.5 : 1,
+            }}
+          >
+            ◀ Previous
+          </button>
+
+          {[...Array(totalPages)].map((_, index) => (
+
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              style={{
+                padding: "8px 14px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                background:
+                  currentPage === index + 1
+                    ? "#2563eb"
+                    : "#e5e7eb",
+                color:
+                  currentPage === index + 1
+                    ? "#fff"
+                    : "#000",
+                fontWeight: "bold",
+              }}
+            >
+              {index + 1}
+            </button>
+
+          ))}
+
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            style={{
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "6px",
+              cursor:
+                currentPage === totalPages
+                  ? "not-allowed"
+                  : "pointer",
+              background: "#2563eb",
+              color: "#fff",
+              opacity: currentPage === totalPages ? 0.5 : 1,
+            }}
+          >
+            Next ▶
+          </button>
+
+        </div>
+
+      )}
 
     </div>
   );
