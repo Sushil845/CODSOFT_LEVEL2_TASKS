@@ -16,7 +16,7 @@ import {
 
 import Layout from "../components/Layout";
 
-import "./SavedJobs.css";
+import "./Savedjobs.css";
 
 function SavedJobs() {
   const [savedJobs, setSavedJobs] = useState([]);
