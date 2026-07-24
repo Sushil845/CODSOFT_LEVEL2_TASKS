@@ -22,35 +22,40 @@ export const uploadResume = async (req, res) => {
       const stream = cloudinary.uploader.upload_stream(
         {
           folder: "CareerNest/resumes",
-          resource_type: "raw",
+          resource_type: "auto",
           use_filename: true,
           unique_filename: false,
           filename_override: req.file.originalname,
+          overwrite: true,
         },
         (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
+          if (error) return reject(error);
+          resolve(result);
         }
       );
 
       streamifier.createReadStream(req.file.buffer).pipe(stream);
     });
 
+    console.log("========== CLOUDINARY ==========");
     console.log(uploadResult);
+    console.log("================================");
 
     user.resume = uploadResult.secure_url;
 
     await user.save();
 
-    res.status(200).json({
+    return res.status(200).json({
+      success: true,
       message: "Resume uploaded successfully.",
-      resume: user.resume,
+      resume: uploadResult.secure_url,
     });
 
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
+      success: false,
       message: "Server Error",
     });
   }
