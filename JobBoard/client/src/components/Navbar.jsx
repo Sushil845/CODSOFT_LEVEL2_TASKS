@@ -198,16 +198,16 @@ function Navbar() {
                   }
                 >
                   <img
-                    src={
-                      user?.profileImage
-                        ? `https://codsoft-level2-tasks.onrender.com/uploads/${user.profileImage}`
-                        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                            user?.name || "User"
-                          )}&background=2563eb&color=fff`
-                    }
-                    alt="Profile"
-                    className="navbar-profile-image"
-                  />
+  src={
+    user?.profileImage
+      ? user.profileImage
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          user?.name || "User"
+        )}&background=2563eb&color=fff`
+  }
+  alt="Profile"
+  className="navbar-profile-image"
+/>
 
                   <span>{user?.name}</span>
                 </div>
