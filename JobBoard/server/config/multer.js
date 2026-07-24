@@ -1,17 +1,6 @@
 import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import cloudinary from "./cloudinary.js";
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: async (req, file) => ({
-    folder: "CareerNest/resumes",
-    resource_type: "raw",
-    public_id: `${Date.now()}-${file.originalname.replace(".pdf", "")}`,
-    use_filename: true,
-    unique_filename: false,
-  }),
-});
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "application/pdf") {
