@@ -229,8 +229,24 @@
     }
 
     .nav-buttons {
+        display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
         margin-top: 20px;
+        width: 100%;
+    }
+
+    .nav-buttons .login-btn,
+    .nav-buttons .post-btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        min-width: 110px;
+        padding: 12px 22px;
+        flex: none;
     }
 
     .dropdown {
