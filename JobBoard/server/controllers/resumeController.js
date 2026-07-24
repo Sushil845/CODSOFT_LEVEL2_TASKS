@@ -17,17 +17,20 @@ export const uploadResume = async (req, res) => {
         message: "User not found.",
       });
     }
+const fileName = req.file.originalname.replace(/\.[^/.]+$/, "");
 
-    const uploadResult = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        {
-          folder: "CareerNest/resumes",
-          resource_type: "auto",
-          use_filename: true,
-          unique_filename: false,
-          filename_override: req.file.originalname,
-          overwrite: true,
-        },
+const stream = cloudinary.uploader.upload_stream(
+  {
+    folder: "CareerNest/resumes",
+    resource_type: "auto",
+
+    public_id: fileName,
+    overwrite: true,
+    invalidate: true,
+
+    use_filename: false,
+    unique_filename: false,
+  },
         (error, result) => {
           if (error) return reject(error);
           resolve(result);
