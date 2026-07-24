@@ -231,13 +231,13 @@ function EmployerDashboard() {
       <div className="profile-card">
 
         <img
-          src={
-            profile?.profileImage
-              ? `https://codsoft-level2-tasks.onrender.com/uploads/${profile.profileImage}`
-              : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                  profile?.name || "Employer"
-                )}&background=2563eb&color=fff`
-          }
+         src={
+  profile?.profileImage
+    ? profile.profileImage
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+        profile?.name || "Employer"
+      )}&background=2563eb&color=fff`
+}
           alt="Profile"
           className="profile-image"
         />
