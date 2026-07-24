@@ -42,7 +42,10 @@ function JobCard({ job }) {
 
         <div className="company-info">
 
-          <div className="company-logo">
+          <div
+            className="company-logo"
+            title={job.company}
+          >
             {companyLetter}
           </div>
 
@@ -62,7 +65,7 @@ function JobCard({ job }) {
         </div>
 
         <span className="job-type">
-          Full Time
+          {job.jobType || "Full Time"}
         </span>
 
       </div>
@@ -83,11 +86,12 @@ function JobCard({ job }) {
         <FaUserTie />
         <span>
           Posted by{" "}
-          {job.employer?.name || "Employer"}
+          {job.employer?.name ?? "Employer"}
         </span>
       </div>
 
       <div className="job-info">
+
         <FaClock />
 
         <span>
@@ -101,12 +105,16 @@ function JobCard({ job }) {
             NEW
           </span>
         )}
-      </div>
 
-      {/* Description */}
+      </div>
+            {/* Description */}
 
       <p className="job-description">
-        {job.description}
+        {job.description
+          ? job.description.length > 120
+            ? job.description.substring(0, 120) + "..."
+            : job.description
+          : "No description available."}
       </p>
 
       {/* Skills */}
@@ -115,16 +123,14 @@ function JobCard({ job }) {
 
         {skills.length > 0 ? (
           <>
-            {skills
-              .slice(0, 4)
-              .map((skill, index) => (
-                <span
-                  key={index}
-                  className="tag"
-                >
-                  {skill}
-                </span>
-              ))}
+            {skills.slice(0, 4).map((skill, index) => (
+              <span
+                key={index}
+                className="tag"
+              >
+                {skill}
+              </span>
+            ))}
 
             {skills.length > 4 && (
               <span className="tag more-tag">
@@ -146,7 +152,10 @@ function JobCard({ job }) {
         to={`/job/${job._id}`}
         className="details-link"
       >
-        <button className="apply-btn">
+        <button
+          className="apply-btn"
+          aria-label={`View details for ${job.title}`}
+        >
           <FaBriefcase />
           View Details
         </button>

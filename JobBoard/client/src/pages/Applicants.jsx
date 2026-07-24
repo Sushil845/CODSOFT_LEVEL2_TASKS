@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 function Applicants() {
   const { jobId } = useParams();
-
+const [previewImage, setPreviewImage] = useState(null);
   const [applications, setApplications] = useState([]);
 
   // Pagination
@@ -121,22 +121,22 @@ function Applicants() {
                   >
 
                     <img
-                      src={
-                        app.candidate.profileImage
-                          ? `https://codsoft-level2-tasks.onrender.com/uploads/${app.candidate.profileImage}`
-                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                              app.candidate.name
-                            )}&background=2563eb&color=fff`
-                      }
-                      alt="Candidate"
-                      style={{
-                        width: "55px",
-                        height: "55px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                        border: "2px solid #2563eb",
-                      }}
-                    />
+  src={
+    app.candidate.profileImage
+      ? app.candidate.profileImage
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          app.candidate.name
+        )}&background=2563eb&color=fff`
+  }
+  alt="Candidate"
+  style={{
+    width: "55px",
+    height: "55px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    border: "2px solid #2563eb",
+  }}
+/>
 
                     <div>
 
@@ -165,59 +165,38 @@ function Applicants() {
 
                   {app.candidate.resume ? (
 
-                    <>
-                      <span
-                        style={{
-                          color: "green",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        ✅ Uploaded
-                      </span>
+ <>
+  <span
+    style={{
+      color: "green",
+      fontWeight: "bold",
+    }}
+  >
+    ✅ Uploaded
+  </span>
 
-                      <br /><br />
+  <br /><br />
 
-                      <a
-                        href={`https://codsoft-level2-tasks.onrender.com/uploads/${app.candidate.resume}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ textDecoration: "none" }}
-                      >
-                        <button
-                          style={{
-                            background: "#2563eb",
-                            color: "#fff",
-                            border: "none",
-                            padding: "8px 12px",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                            marginRight: "8px",
-                          }}
-                        >
-                          👁 View
-                        </button>
-                      </a>
-
-                      <a
-                        href={`https://codsoft-level2-tasks.onrender.com/uploads/${app.candidate.resume}`}
-                        download
-                        style={{ textDecoration: "none" }}
-                      >
-                        <button
-                          style={{
-                            background: "#16a34a",
-                            color: "#fff",
-                            border: "none",
-                            padding: "8px 12px",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          ⬇ Download
-                        </button>
-                      </a>
-
-                    </>
+  <a
+    href={app.candidate.resume}
+    target="_blank"
+    rel="noreferrer"
+    style={{ textDecoration: "none" }}
+  >
+    <button
+      style={{
+        background: "#16a34a",
+        color: "#fff",
+        border: "none",
+        padding: "8px 12px",
+        borderRadius: "6px",
+        cursor: "pointer",
+      }}
+    >
+      📄 View Resume
+    </button>
+  </a>
+</>
                                       ) : (
 
                     <span

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaBriefcase, FaBuilding, FaUsers } from "react-icons/fa";
 import "./Hero.css";
 
 function Hero() {
@@ -29,21 +29,21 @@ function Hero() {
           </span>
 
           <h1>
-            Find the Career <br />
-            You've Always Wanted
+            Find Your Dream Job <br />
+            Build Your Future Today
           </h1>
 
           <p>
-            Discover verified opportunities from startups,
-            MNCs and remote companies across India.
+            Explore thousands of verified opportunities from startups,
+            leading MNCs, and remote companies across India.
           </p>
 
-          {/* Search Box */}
+          {/* Search */}
           <div className="search-box">
 
             <input
               type="text"
-              placeholder="Search by job title..."
+              placeholder="Search jobs, skills or companies..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => {
@@ -59,10 +59,11 @@ function Hero() {
 
           </div>
 
-          {/* Quick Skills */}
+          {/* Trending Skills */}
           <div className="skills">
-            <span>Java</span>
+            <span>🔥 Java</span>
             <span>React</span>
+            <span>Spring Boot</span>
             <span>Node.js</span>
             <span>Python</span>
             <span>Remote</span>
@@ -76,16 +77,31 @@ function Hero() {
           <div className="stats">
 
             <div>
+              <FaBriefcase
+                size={30}
+                color="#2563eb"
+                style={{ marginBottom: "10px" }}
+              />
               <h2>12K+</h2>
               <p>Active Jobs</p>
             </div>
 
             <div>
+              <FaBuilding
+                size={30}
+                color="#2563eb"
+                style={{ marginBottom: "10px" }}
+              />
               <h2>350+</h2>
               <p>Companies</p>
             </div>
 
             <div>
+              <FaUsers
+                size={30}
+                color="#2563eb"
+                style={{ marginBottom: "10px" }}
+              />
               <h2>20K+</h2>
               <p>Candidates</p>
             </div>

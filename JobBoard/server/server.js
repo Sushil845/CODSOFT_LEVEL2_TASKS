@@ -33,8 +33,7 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/saved-jobs", savedJobRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/test-email", testEmailRoute);
-// Serve uploaded resume files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 app.use(express.static('./../client/dist'))
 

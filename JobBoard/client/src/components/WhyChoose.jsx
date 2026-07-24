@@ -12,32 +12,40 @@ function WhyChoose() {
     {
       icon: <FaShieldAlt />,
       title: "Verified Companies",
-      description: "Apply only to trusted and verified employers.",
+      description:
+        "Apply confidently to trusted employers verified by CareerNest.",
     },
     {
       icon: <FaPaperPlane />,
       title: "One Click Apply",
-      description: "Apply for jobs quickly without lengthy forms.",
+      description:
+        "Submit applications quickly without lengthy registration forms.",
     },
     {
       icon: <FaFileUpload />,
       title: "Resume Upload",
-      description: "Upload your resume once and use it everywhere.",
+      description:
+        "Upload your resume once and apply to multiple opportunities instantly.",
     },
     {
       icon: <FaBell />,
       title: "Job Alerts",
-      description: "Receive instant notifications for new openings.",
+      description:
+        "Receive timely notifications about jobs matching your skills.",
     },
   ];
 
   return (
     <section className="why-section">
 
-      <h2>Why Choose CareerNest?</h2>
+      <div className="section-title">
+        <h2>Why Choose CareerNest?</h2>
+        <p>
+          Everything you need to discover opportunities and grow your career in one place.
+        </p>
+      </div>
 
       <div className="why-grid">
-
         {features.map((feature, index) => (
           <div className="why-card" key={index}>
 
@@ -51,7 +59,6 @@ function WhyChoose() {
 
           </div>
         ))}
-
       </div>
 
     </section>

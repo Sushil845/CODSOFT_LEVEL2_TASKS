@@ -1,0 +1,299 @@
+/* ===========================
+   Applicants Page
+=========================== */
+
+.applicants-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.applicants-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.applicants-header h2 {
+  font-size: 2.2rem;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.applicants-header p {
+  color: #6b7280;
+  margin-top: 10px;
+}
+
+/* Grid */
+
+.applicants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 25px;
+}
+
+/* Card */
+
+.applicant-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  transition: .3s;
+  border: 1px solid #eef2ff;
+}
+
+.applicant-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(37,99,235,.15);
+}
+
+/* Top */
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2563eb;
+}
+
+.profile h4 {
+  margin: 0;
+  color: #111827;
+}
+
+.profile p {
+  margin-top: 5px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Status */
+
+.status {
+  padding: 7px 16px;
+  border-radius: 25px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pending {
+  background: #FEF3C7;
+  color: #B45309;
+}
+
+.approved {
+  background: #DCFCE7;
+  color: #15803D;
+}
+
+.rejected {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+/* Resume */
+
+.resume-section {
+  margin-top: 22px;
+}
+
+.resume-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #374151;
+}
+
+.resume-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.resume-btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .3s;
+}
+
+.view-btn {
+  background: #2563eb;
+}
+
+.download-btn {
+  background: #16a34a;
+}
+
+.resume-btn:hover {
+  transform: translateY(-2px);
+}
+
+.no-resume {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* Actions */
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.action-buttons button {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .3s;
+}
+
+.approve-btn {
+  background: #22c55e;
+}
+
+.reject-btn {
+  background: #ef4444;
+}
+
+.action-buttons button:hover {
+  transform: translateY(-2px);
+}
+
+/* Empty */
+
+.empty-box {
+  background: white;
+  border-radius: 18px;
+  padding: 60px;
+  text-align: center;
+  color: #6b7280;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+/* Pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  border: none;
+  background: #e5e7eb;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.page-btn:hover {
+  background: #2563eb;
+  color: white;
+}
+
+.page-btn.active {
+  background: #2563eb;
+  color: white;
+}
+
+.page-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+
+@media (max-width:768px){
+
+  .applicants-grid{
+    grid-template-columns:1fr;
+  }
+
+  .card-top{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+  }
+
+  .action-buttons{
+    flex-direction:column;
+  }
+
+  .resume-buttons{
+    flex-direction:column;
+  }
+
+}
+/* Profile Image */
+
+.profile img{
+  cursor:pointer;
+  transition:.3s;
+}
+
+.profile img:hover{
+  transform:scale(1.08);
+}
+
+/* Image Preview */
+
+.image-preview{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(5px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  animation:fade .25s ease;
+}
+
+.image-preview img{
+  width:320px;
+  height:320px;
+  object-fit:cover;
+  border-radius:50%;
+  border:5px solid #fff;
+  box-shadow:0 10px 35px rgba(0,0,0,.4);
+  animation:zoom .25s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes zoom{
+  from{
+    transform:scale(.6);
+  }
+  to{
+    transform:scale(1);
+  }
+}

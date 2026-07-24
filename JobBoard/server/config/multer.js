@@ -4,11 +4,13 @@ import cloudinary from "./cloudinary.js";
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
+  params: async (req, file) => ({
     folder: "CareerNest/resumes",
     resource_type: "raw",
-    allowed_formats: ["pdf"],
-  },
+    public_id: `${Date.now()}-${file.originalname.replace(".pdf", "")}`,
+    use_filename: true,
+    unique_filename: false,
+  }),
 });
 
 const fileFilter = (req, file, cb) => {
@@ -23,7 +25,7 @@ const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5 MB
+    fileSize: 5 * 1024 * 1024,
   },
 });
 

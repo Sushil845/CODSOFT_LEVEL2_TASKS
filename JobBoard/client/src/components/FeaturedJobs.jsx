@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import JobCard from "./JobCard";
+import "./FeaturedJobs.css";
 
 function FeaturedJobs() {
   const [jobs, setJobs] = useState([]);
@@ -11,9 +13,10 @@ function FeaturedJobs() {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get("https://codsoft-level2-tasks.onrender.com/api/jobs");
+      const res = await axios.get(
+        "https://codsoft-level2-tasks.onrender.com/api/jobs"
+      );
 
-      // Show only first 6 jobs on Home page
       setJobs(res.data.slice(0, 6));
     } catch (error) {
       console.log(error);
@@ -21,17 +24,33 @@ function FeaturedJobs() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Featured Jobs</h2>
+    <section className="featured-section">
+      <div className="container">
 
-      <div className="row">
-        {jobs.map((job) => (
-          <div className="col-md-3 mb-4" key={job._id}>
-            <JobCard job={job} />
-          </div>
-        ))}
+        <div className="section-header">
+          <h2>Featured Jobs</h2>
+
+          <p>
+            Explore the latest opportunities from verified employers.
+          </p>
+        </div>
+
+        <div className="row">
+          {jobs.map((job) => (
+            <div className="col-lg-4 col-md-6 mb-4" key={job._id}>
+              <JobCard job={job} />
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-4">
+          <Link to="/jobs" className="view-all-btn">
+            View All Jobs →
+          </Link>
+        </div>
+
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -1,7 +1,33 @@
 .hero {
-    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 45%, #3b82f6 100%);
     color: white;
+    padding: 90px 0;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    filter: blur(20px);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    bottom: -80px;
+    left: -80px;
+    filter: blur(25px);
 }
 
 .hero-container {
@@ -9,9 +35,11 @@
     max-width: 1300px;
     margin: auto;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     gap: 60px;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-left {
@@ -19,59 +47,76 @@
 }
 
 .hero-tag {
-    background: rgba(255,255,255,0.15);
-    padding: 8px 18px;
-    border-radius: 30px;
     display: inline-block;
-    margin-bottom: 25px;
-    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(10px);
     font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,.25);
 }
 
 .hero-left h1 {
-    font-size: 48px;
+    font-size: 58px;
+    line-height: 1.15;
     font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
 }
 
 .hero-left p {
-    font-size: 20px;
-    color: rgba(255,255,255,0.9);
+    font-size: 19px;
+    line-height: 1.8;
+    max-width: 620px;
+    color: rgba(255,255,255,.92);
     margin-bottom: 35px;
-    line-height: 1.7;
 }
 
 .search-box {
     display: flex;
+    align-items: center;
     background: white;
-    border-radius: 12px;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    margin-bottom: 25px;
+    box-shadow: 0 18px 45px rgba(0,0,0,.18);
+    transition: .35s;
+    margin-bottom: 28px;
+}
+
+.search-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 22px 55px rgba(0,0,0,.22);
 }
 
 .search-box input {
     flex: 1;
     border: none;
     outline: none;
-    padding: 18px;
+    padding: 20px;
     font-size: 17px;
+    color: #111827;
+}
+
+.search-box input::placeholder {
+    color: #6b7280;
 }
 
 .search-box button {
     border: none;
-    background: #f97316;
+    background: #2563eb;
     color: white;
-    padding: 0 30px;
+    padding: 0 35px;
+    height: 60px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: .3s;
 }
 
 .search-box button:hover {
-    background: #ea580c;
+    background: #1d4ed8;
 }
 
 .skills {
@@ -81,88 +126,178 @@
 }
 
 .skills span {
-    background: rgba(255,255,255,0.18);
-    padding: 8px 16px;
-    border-radius: 25px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    backdrop-filter: blur(8px);
     font-size: 14px;
-    transition: 0.3s;
+    font-weight: 600;
+    transition: .3s;
+    cursor: pointer;
 }
 
 .skills span:hover {
     background: white;
     color: #2563eb;
+    transform: translateY(-3px);
 }
 
 .hero-right {
     flex: 1;
-    text-align: center;
-}
-
-.hero-right img {
-    width: 100%;
-    max-width: 470px;
-    animation: floatImage 4s ease-in-out infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .stats {
     display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 25px;
-    margin-top: 30px;
 }
 
 .stats div {
+    width: 170px;
     background: white;
     color: #111827;
-    padding: 18px 25px;
-    border-radius: 15px;
-    min-width: 120px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    border-radius: 20px;
+    padding: 28px 22px;
+    text-align: center;
+    box-shadow: 0 18px 40px rgba(0,0,0,.18);
+    transition: .3s;
+}
+
+.stats div:hover {
+    transform: translateY(-8px);
 }
 
 .stats h2 {
     color: #2563eb;
-    margin-bottom: 5px;
-    font-size: 28px;
+    font-size: 34px;
+    margin-bottom: 10px;
 }
 
 .stats p {
-    margin: 0;
-    font-size: 14px;
-    color: #555;
+    color: #6b7280;
+    font-size: 15px;
+    font-weight: 600;
 }
 
-@keyframes floatImage {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-12px);
-    }
-    100% {
-        transform: translateY(0px);
-    }
+@media (max-width:1100px){
+
+.hero-left h1{
+font-size:48px;
 }
 
-@media (max-width: 992px) {
-    .hero-container {
-        flex-direction: column;
-        text-align: center;
-    }
+.hero-container{
+gap:40px;
+}
 
-    .hero-left h1 {
-        font-size: 42px;
-    }
+}
 
-    .search-box {
-        flex-direction: column;
-    }
+@media (max-width:992px){
 
-    .search-box button {
-        padding: 16px;
-    }
+.hero{
+padding:70px 0;
+}
 
-    .stats {
-        flex-wrap: wrap;
-    }
+.hero-container{
+flex-direction:column;
+text-align:center;
+}
+
+.hero-left p{
+margin:auto;
+margin-bottom:35px;
+}
+
+.search-box{
+flex-direction:column;
+border-radius:18px;
+}
+
+.search-box input{
+width:100%;
+}
+
+.search-box button{
+width:100%;
+}
+
+.skills{
+justify-content:center;
+}
+
+.stats{
+margin-top:10px;
+justify-content:center;
+}
+
+}
+
+@media (max-width:768px){
+
+.hero-left h1{
+font-size:38px;
+}
+
+.hero-left p{
+font-size:17px;
+}
+
+.stats div{
+width:150px;
+padding:22px;
+}
+
+}
+
+@media (max-width:480px){
+
+.hero{
+padding:55px 0;
+}
+
+.hero-left h1{
+font-size:32px;
+}
+
+.hero-left p{
+font-size:16px;
+}
+
+.hero-tag{
+font-size:13px;
+padding:8px 15px;
+}
+
+.search-box input{
+font-size:15px;
+padding:16px;
+}
+
+.search-box button{
+height:54px;
+font-size:15px;
+}
+
+.stats{
+flex-direction:column;
+align-items:center;
+}
+
+.stats div{
+width:220px;
+}
+
+.skills{
+gap:10px;
+}
+
+.skills span{
+font-size:13px;
+padding:8px 14px;
+}
+
 }
