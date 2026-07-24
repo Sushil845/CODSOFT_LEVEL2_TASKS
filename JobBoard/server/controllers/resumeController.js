@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import User from "../models/User.js";
 
 export const uploadResume = async (req, res) => {
@@ -18,21 +16,8 @@ export const uploadResume = async (req, res) => {
       });
     }
 
-    // Delete old resume if it exists
-    if (user.resume) {
-      const oldResumePath = path.join(
-        process.cwd(),
-        "uploads",
-        user.resume
-      );
-
-      if (fs.existsSync(oldResumePath)) {
-        fs.unlinkSync(oldResumePath);
-      }
-    }
-
-    // Save new resume filename
-    user.resume = req.file.filename;
+    // Save Cloudinary URL
+    user.resume = req.file.path;
 
     await user.save();
 

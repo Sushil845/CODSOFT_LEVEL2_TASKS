@@ -1,16 +1,13 @@
 import multer from "multer";
-import path from "path";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "./cloudinary.js";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-
-  filename: (req, file, cb) => {
-    const uniqueName =
-      Date.now() + path.extname(file.originalname);
-
-    cb(null, uniqueName);
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "CareerNest/resumes",
+    resource_type: "raw",
+    allowed_formats: ["pdf"],
   },
 });
 
@@ -26,7 +23,7 @@ const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize: 5 * 1024 * 1024, // 5 MB
   },
 });
 

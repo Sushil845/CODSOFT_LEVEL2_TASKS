@@ -304,12 +304,12 @@ return (
 
           <img
             src={
-              profile.profileImage
-                ? `https://codsoft-level2-tasks.onrender.com/uploads/${profile.profileImage}`
-                : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                    profile.name
-                  )}&background=2563eb&color=fff&size=200`
-            }
+  profile.profileImage
+    ? profile.profileImage
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+        profile.name
+      )}&background=2563eb&color=fff&size=200`
+}
             alt="Profile"
             className="candidate-profile-image"
           />
@@ -360,7 +360,7 @@ return (
           {profile.resume && (
 
             <a
-              href={`https://codsoft-level2-tasks.onrender.com/uploads/${profile.resume}`}
+              href={profile.resume}
               target="_blank"
               rel="noreferrer"
             >
@@ -374,7 +374,7 @@ return (
           {profile.resume && (
 
             <a
-              href={`https://codsoft-level2-tasks.onrender.com/uploads/${profile.resume}`}
+              href={profile.resume}
               download
             >
               <button>

@@ -394,7 +394,7 @@ export const updateProfile = async (req, res) => {
 
     // Update Profile Picture
     if (req.file) {
-      user.profileImage = req.file.filename;
+      user.profileImage = req.file.path;
     }
 
     await user.save();
