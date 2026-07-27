@@ -1,0 +1,18 @@
+.navbar{
+    background: linear-gradient(90deg,#2563eb,#3b82f6);
+}
+
+.navbar-brand{
+    font-size: 1.6rem;
+    font-weight:700;
+}
+
+.nav-link{
+    font-size:1rem;
+    margin-left:10px;
+    transition:0.3s;
+}
+
+.nav-link:hover{
+    color:#ffd54f !important;
+}
