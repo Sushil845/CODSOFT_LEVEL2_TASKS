@@ -1,18 +1,67 @@
 .navbar{
     background: linear-gradient(90deg,#2563eb,#3b82f6);
+    padding: 12px 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12);
 }
 
 .navbar-brand{
-    font-size: 1.6rem;
+    color:#fff !important;
+    font-size:1.7rem;
     font-weight:700;
+    display:flex;
+    align-items:center;
+}
+
+.navbar-nav{
+    align-items:center;
 }
 
 .nav-link{
+    color:#fff !important;
     font-size:1rem;
-    margin-left:10px;
-    transition:0.3s;
+    font-weight:500;
+    margin-left:18px;
+    position:relative;
+    transition:.3s;
+}
+
+.nav-link::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-5px;
+    width:0%;
+    height:2px;
+    background:#fff;
+    transition:.3s;
 }
 
 .nav-link:hover{
-    color:#ffd54f !important;
+    color:#fff !important;
+}
+
+.nav-link:hover::after{
+    width:100%;
+}
+
+.logout-btn{
+    padding:7px 18px;
+    border-radius:25px;
+    font-weight:600;
+    border:none;
+    transition:.3s;
+    box-shadow:0 4px 12px rgba(220,53,69,.35);
+}
+
+.logout-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(220,53,69,.45);
+}
+
+.navbar-toggler{
+    border:none;
+}
+
+.navbar-toggler:focus{
+    box-shadow:none;
 }

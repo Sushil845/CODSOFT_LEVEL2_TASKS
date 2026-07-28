@@ -1,0 +1,151 @@
+.attempts-page{
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.attempts-page h2{
+    text-align:center;
+    color:#2563eb;
+    font-size:2.4rem;
+    font-weight:700;
+    margin-bottom:45px;
+}
+
+.loading{
+    text-align:center;
+    margin-top:80px;
+}
+
+.attempt-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
+}
+
+.attempt-card{
+    background:#fff;
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 12px 28px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.attempt-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(37,99,235,.15);
+}
+
+.attempt-icon{
+    font-size:38px;
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.attempt-card h3{
+    margin-bottom:12px;
+    color:#222;
+}
+
+.attempt-card p{
+    color:#666;
+    min-height:45px;
+    margin-bottom:18px;
+}
+
+.score{
+    font-size:18px;
+    font-weight:600;
+}
+
+.score span{
+    color:#2563eb;
+    font-size:24px;
+    font-weight:700;
+}
+
+.progress-bar{
+    margin-top:18px;
+    width:100%;
+    height:10px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:#2563eb;
+    border-radius:20px;
+}
+
+.percentage{
+    margin-top:10px;
+    font-size:22px;
+    font-weight:700;
+    color:#2563eb;
+}
+
+.status{
+    margin-top:18px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 16px;
+    border-radius:30px;
+    font-weight:600;
+}
+
+.passed{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.failed{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.date{
+    margin-top:20px;
+    color:#6b7280;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.empty-box{
+    max-width:500px;
+    margin:80px auto;
+    background:#fff;
+    padding:50px;
+    text-align:center;
+    border-radius:20px;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+.empty-icon{
+    font-size:70px;
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+.empty-box h3{
+    margin-bottom:10px;
+}
+
+.empty-box p{
+    color:#6b7280;
+}
+
+@media(max-width:768px){
+
+.attempt-grid{
+    grid-template-columns:1fr;
+}
+
+.attempts-page h2{
+    font-size:2rem;
+}
+
+}

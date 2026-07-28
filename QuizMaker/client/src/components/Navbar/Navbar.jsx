@@ -1,29 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGraduationCap } from "react-icons/fa";
 import "./Navbar.css";
 
 function Navbar() {
-  return (
-<nav className="navbar navbar-expand-lg navbar-dark shadow">
-              <div className="container">
+  const navigate = useNavigate();
 
-        <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-  <FaGraduationCap className="me-2" />
-  QuizMaster
-</Link>
+  const token = localStorage.getItem("token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg">
+      <div className="container">
+
+        <Link className="navbar-brand" to="/">
+          <FaGraduationCap className="me-2" />
+          QuizMaster
+        </Link>
 
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbar"
+          data-bs-target="#navbarNav"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbar">
-
-          <ul className="navbar-nav ms-auto">
+        <div
+          className="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul className="navbar-nav align-items-center">
 
             <li className="nav-item">
               <Link className="nav-link" to="/">
@@ -37,20 +49,52 @@ function Navbar() {
               </Link>
             </li>
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
+            {token ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/create">
+                    Create Quiz
+                  </Link>
+                </li>
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/register">
-                Register
-              </Link>
-            </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/my-quizzes">
+                    My Quizzes
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/my-attempts">
+                    My Attempts
+                  </Link>
+                </li>
+
+                <li className="nav-item ms-3">
+                  <button
+                    className="btn btn-danger logout-btn"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    Login
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/register">
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
 
           </ul>
-
         </div>
 
       </div>

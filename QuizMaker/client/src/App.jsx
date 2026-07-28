@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -18,15 +19,65 @@ function App() {
       <Navbar />
 
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/quizzes" element={<QuizList />} />
-        <Route path="/create" element={<CreateQuiz />} />
-        <Route path="/attempt/:id" element={<AttemptQuiz />} />
-        <Route path="/my-quizzes" element={<MyQuizzes />} />
-        <Route path="/my-attempts" element={<MyAttempts />} />
-        <Route path="/result" element={<Result />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/quizzes"
+          element={
+            <ProtectedRoute>
+              <QuizList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/create"
+          element={
+            <ProtectedRoute>
+              <CreateQuiz />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/attempt/:id"
+          element={
+            <ProtectedRoute>
+              <AttemptQuiz />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-quizzes"
+          element={
+            <ProtectedRoute>
+              <MyQuizzes />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-attempts"
+          element={
+            <ProtectedRoute>
+              <MyAttempts />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/result"
+          element={
+            <ProtectedRoute>
+              <Result />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );
