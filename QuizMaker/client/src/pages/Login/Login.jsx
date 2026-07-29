@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaGraduationCap,
+} from "react-icons/fa";
 import API from "../../api/axios";
 import "./Login.css";
 
@@ -8,6 +13,7 @@ function Login() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -24,39 +30,67 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     try {
       const res = await API.post("/auth/login", formData);
 
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
 
-      alert("Login Successful!");
+      toast.success("Welcome back! 🎉");
+
       navigate("/");
     } catch (error) {
-      alert(error.response?.data?.message || "Login Failed");
+      toast.error(
+  error.response?.data?.message || "Login Failed!"
+);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-page">
+
       <div className="login-card">
-        <h2>Login</h2>
+
+        <div className="login-header">
+  <FaGraduationCap className="login-logo" />
+
+  <div className="login-brand">
+    QuizMaster
+  </div>
+
+  <h2>Welcome Back</h2>
+
+  <p>
+    Login to continue your QuizMaster journey.
+  </p>
+</div>
 
         <form onSubmit={handleSubmit}>
+
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Enter Email"
             value={formData.email}
             onChange={handleChange}
             required
           />
 
           <div className="password-field">
+
             <input
-              type={showPassword ? "text" : "password"}
+              type={
+                showPassword ? "text" : "password"
+              }
               name="password"
-              placeholder="Password"
+              placeholder="Enter Password"
               value={formData.password}
               onChange={handleChange}
               required
@@ -64,15 +98,45 @@ function Login() {
 
             <span
               className="password-icon"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() =>
+                setShowPassword(!showPassword)
+              }
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? (
+                <FaEyeSlash />
+              ) : (
+                <FaEye />
+              )}
             </span>
+
           </div>
 
-          <button type="submit">Login</button>
+          <button
+            type="submit"
+            disabled={loading}
+          >
+            {loading
+              ? "Signing In..."
+              : "Login"}
+          </button>
+
         </form>
+
+        <div className="login-footer">
+
+          <p>
+            Don't have an account?{" "}
+
+            <Link to="/register">
+              Register
+            </Link>
+
+          </p>
+
+        </div>
+
       </div>
+
     </div>
   );
 }

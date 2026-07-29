@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaGraduationCap,
+} from "react-icons/fa";
 import API from "../../api/axios";
 import "./Register.css";
 
@@ -8,6 +13,7 @@ function Register() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -25,22 +31,48 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     try {
       await API.post("/auth/register", formData);
 
-      alert("Registration Successful!");
+      toast.success("Account created successfully! 🎉");
+
       navigate("/login");
 
     } catch (error) {
-      alert(error.response?.data?.message || "Registration Failed");
+
+      toast.error(
+  error.response?.data?.message || "Registration Failed!"
+);
+
+    } finally {
+
+      setLoading(false);
+
     }
   };
 
   return (
     <div className="register-page">
+
       <div className="register-card">
 
-        <h2>Create Account</h2>
+        <div className="register-header">
+
+          <FaGraduationCap className="register-logo" />
+
+          <div className="register-brand">
+            QuizMaster
+          </div>
+
+          <h2>Create Account</h2>
+
+          <p>
+            Join QuizMaster and start creating amazing quizzes.
+          </p>
+
+        </div>
 
         <form onSubmit={handleSubmit}>
 
@@ -75,25 +107,46 @@ function Register() {
 
             <span
               className="password-icon"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() =>
+                setShowPassword(!showPassword)
+              }
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? (
+                <FaEyeSlash />
+              ) : (
+                <FaEye />
+              )}
             </span>
 
           </div>
 
-          <button type="submit">
-            Register
+          <button
+            type="submit"
+            disabled={loading}
+          >
+            {loading
+              ? "Creating Account..."
+              : "Register"}
           </button>
 
         </form>
 
-        <p className="login-link">
-          Already have an account?{" "}
-          <Link to="/login">Login</Link>
-        </p>
+        <div className="register-footer">
+
+          <p>
+
+            Already have an account?
+
+            <Link to="/login">
+              Login
+            </Link>
+
+          </p>
+
+        </div>
 
       </div>
+
     </div>
   );
 }

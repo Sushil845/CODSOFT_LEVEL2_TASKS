@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import EditQuiz from "./pages/EditQuiz/EditQuiz";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -78,6 +78,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+  path="/edit-quiz/:id"
+  element={
+    <ProtectedRoute>
+      <EditQuiz />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </>
   );

@@ -1,44 +1,90 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import API from "../../api/axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import "./CreateQuiz.css";
+import {
+  getQuizById,
+  updateQuiz,
+} from "../../services/editQuizService";
+import "./EditQuiz.css";
 
-function CreateQuiz() {
+function EditQuiz() {
+
+  const { id } = useParams();
+
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+
   const [title, setTitle] = useState("");
+
   const [description, setDescription] = useState("");
 
-  const [questions, setQuestions] = useState([
-    {
-      question: "",
-      options: ["", "", "", ""],
-      correctAnswer: 0,
-    },
-  ]);
+  const [questions, setQuestions] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const fetchQuiz = async () => {
+    try {
+
+      const data = await getQuizById(id);
+
+      setTitle(data.title);
+
+      setDescription(data.description);
+
+      setQuestions(data.questions);
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Failed to load quiz.");
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
 
   const handleQuestionChange = (index, value) => {
+
     const updated = [...questions];
+
     updated[index].question = value;
+
     setQuestions(updated);
+
   };
 
-  const handleOptionChange = (qIndex, optionIndex, value) => {
+  const handleOptionChange = (
+    qIndex,
+    optionIndex,
+    value
+  ) => {
+
     const updated = [...questions];
+
     updated[qIndex].options[optionIndex] = value;
+
     setQuestions(updated);
+
   };
 
-  const handleCorrectAnswer = (qIndex, value) => {
+  const handleCorrectAnswer = (index, value) => {
+
     const updated = [...questions];
-    updated[qIndex].correctAnswer = Number(value);
+
+    updated[index].correctAnswer = Number(value);
+
     setQuestions(updated);
+
   };
 
   const addQuestion = () => {
+
     setQuestions([
       ...questions,
       {
@@ -47,98 +93,88 @@ function CreateQuiz() {
         correctAnswer: 0,
       },
     ]);
+
   };
 
   const removeQuestion = (index) => {
+
     if (questions.length === 1) return;
 
-    const updated = questions.filter((_, i) => i !== index);
+    const updated = [...questions];
+
+    updated.splice(index, 1);
+
     setQuestions(updated);
+
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
-    if (!title.trim()) {
-      alert("Quiz title is required");
-      return;
-    }
-
-    for (let q of questions) {
-      if (!q.question.trim()) {
-        alert("Every question must have text");
-        return;
-      }
-
-      for (let option of q.options) {
-        if (!option.trim()) {
-          alert("All options are required");
-          return;
-        }
-      }
-    }
-
     try {
-      setLoading(true);
 
-      const token = localStorage.getItem("token");
+      await updateQuiz(id, {
+        title,
+        description,
+        questions,
+      });
 
-      await API.post(
-        "/quizzes",
-        {
-          title,
-          description,
-          questions,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      toast.success("Quiz created successfully! 📚");
+toast.success("Quiz updated successfully! ✏️");
 
       navigate("/my-quizzes");
 
     } catch (error) {
-      console.log(error);
-toast.error("Failed to create quiz.");
-    } finally {
-      setLoading(false);
-    }
-  };
-    return (
-    <div className="create-page">
 
-      <form className="create-card" onSubmit={handleSubmit}>
+      console.log(error);
+
+      toast.error("Failed to update quiz.");
+
+    }
+
+  };
+
+  if (loading) {
+    return <h2 className="loading">Loading...</h2>;
+  }
+    return (
+    <div className="edit-page">
+
+      <form className="edit-card" onSubmit={handleSubmit}>
 
         <div className="page-header">
-          <h2>Create New Quiz</h2>
-          <p>Create engaging multiple-choice quizzes for your students.</p>
+
+          <h2>Edit Quiz</h2>
+
+          <p>Update your quiz details and questions.</p>
+
         </div>
 
         <div className="input-group">
+
           <label>Quiz Title</label>
 
           <input
             type="text"
-            placeholder="Enter Quiz Title"
             value={title}
+            placeholder="Quiz Title"
             onChange={(e) => setTitle(e.target.value)}
             required
           />
+
         </div>
 
         <div className="input-group">
+
           <label>Description</label>
 
           <textarea
             rows="3"
-            placeholder="Enter Quiz Description"
             value={description}
+            placeholder="Quiz Description"
             onChange={(e) => setDescription(e.target.value)}
           />
+
         </div>
 
         {questions.map((question, index) => (
@@ -169,8 +205,8 @@ toast.error("Failed to create quiz.");
 
               <input
                 type="text"
-                placeholder="Enter Question"
                 value={question.question}
+                placeholder="Enter Question"
                 onChange={(e) =>
                   handleQuestionChange(index, e.target.value)
                 }
@@ -181,45 +217,26 @@ toast.error("Failed to create quiz.");
 
             <div className="options-grid">
 
-              <input
-                type="text"
-                placeholder="Option A"
-                value={question.options[0]}
-                onChange={(e) =>
-                  handleOptionChange(index, 0, e.target.value)
-                }
-                required
-              />
+              {question.options.map((option, optionIndex) => (
 
-              <input
-                type="text"
-                placeholder="Option B"
-                value={question.options[1]}
-                onChange={(e) =>
-                  handleOptionChange(index, 1, e.target.value)
-                }
-                required
-              />
+                <input
+                  key={optionIndex}
+                  type="text"
+                  placeholder={`Option ${String.fromCharCode(
+                    65 + optionIndex
+                  )}`}
+                  value={option}
+                  onChange={(e) =>
+                    handleOptionChange(
+                      index,
+                      optionIndex,
+                      e.target.value
+                    )
+                  }
+                  required
+                />
 
-              <input
-                type="text"
-                placeholder="Option C"
-                value={question.options[2]}
-                onChange={(e) =>
-                  handleOptionChange(index, 2, e.target.value)
-                }
-                required
-              />
-
-              <input
-                type="text"
-                placeholder="Option D"
-                value={question.options[3]}
-                onChange={(e) =>
-                  handleOptionChange(index, 3, e.target.value)
-                }
-                required
-              />
+              ))}
 
             </div>
 
@@ -255,10 +272,9 @@ toast.error("Failed to create quiz.");
 
         <button
           type="submit"
-          className="create-btn"
-          disabled={loading}
+          className="update-btn"
         >
-          {loading ? "Creating Quiz..." : "Create Quiz"}
+          Update Quiz
         </button>
 
       </form>
@@ -267,4 +283,4 @@ toast.error("Failed to create quiz.");
   );
 }
 
-export default CreateQuiz;
+export default EditQuiz;
