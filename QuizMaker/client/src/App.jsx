@@ -1,8 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
-import EditQuiz from "./pages/EditQuiz/EditQuiz";
+
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -12,83 +13,98 @@ import AttemptQuiz from "./pages/AttemptQuiz/AttemptQuiz";
 import MyQuizzes from "./pages/MyQuizzes/MyQuizzes";
 import MyAttempts from "./pages/MyAttempts/MyAttempts";
 import Result from "./pages/Result/Result";
+import EditQuiz from "./pages/EditQuiz/EditQuiz";
 
 function App() {
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
+
       <Navbar />
 
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <main className="flex-grow-1">
 
-        {/* Protected Routes */}
-        <Route
-          path="/quizzes"
-          element={
-            <ProtectedRoute>
-              <QuizList />
-            </ProtectedRoute>
-          }
-        />
+        <Routes>
 
-        <Route
-          path="/create"
-          element={
-            <ProtectedRoute>
-              <CreateQuiz />
-            </ProtectedRoute>
-          }
-        />
+          {/* Public Routes */}
 
-        <Route
-          path="/attempt/:id"
-          element={
-            <ProtectedRoute>
-              <AttemptQuiz />
-            </ProtectedRoute>
-          }
-        />
+          <Route path="/" element={<Home />} />
 
-        <Route
-          path="/my-quizzes"
-          element={
-            <ProtectedRoute>
-              <MyQuizzes />
-            </ProtectedRoute>
-          }
-        />
+          <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/my-attempts"
-          element={
-            <ProtectedRoute>
-              <MyAttempts />
-            </ProtectedRoute>
-          }
-        />
+          <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/result"
-          element={
-            <ProtectedRoute>
-              <Result />
-            </ProtectedRoute>
-          }
-        />
+          {/* Protected Routes */}
 
-        <Route
-  path="/edit-quiz/:id"
-  element={
-    <ProtectedRoute>
-      <EditQuiz />
-    </ProtectedRoute>
-  }
-/>
-      </Routes>
-    </>
+          <Route
+            path="/quizzes"
+            element={
+              <ProtectedRoute>
+                <QuizList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreateQuiz />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/attempt/:id"
+            element={
+              <ProtectedRoute>
+                <AttemptQuiz />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/my-quizzes"
+            element={
+              <ProtectedRoute>
+                <MyQuizzes />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/my-attempts"
+            element={
+              <ProtectedRoute>
+                <MyAttempts />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/result"
+            element={
+              <ProtectedRoute>
+                <Result />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/edit-quiz/:id"
+            element={
+              <ProtectedRoute>
+                <EditQuiz />
+              </ProtectedRoute>
+            }
+          />
+
+        </Routes>
+
+      </main>
+
+      <Footer />
+
+    </div>
   );
 }
 

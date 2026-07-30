@@ -13,7 +13,6 @@ function MyAttempts() {
   const [attempts, setAttempts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const attemptsPerPage = 6;
 
@@ -33,7 +32,6 @@ function MyAttempts() {
     }
   };
 
-  // Pagination Logic
   const indexOfLastAttempt = currentPage * attemptsPerPage;
   const indexOfFirstAttempt =
     indexOfLastAttempt - attemptsPerPage;
@@ -50,6 +48,7 @@ function MyAttempts() {
   if (loading) {
     return (
       <div className="text-center mt-5">
+
         <div
           className="spinner-border text-primary"
           role="status"
@@ -62,6 +61,7 @@ function MyAttempts() {
         <p className="mt-3">
           Loading Attempts...
         </p>
+
       </div>
     );
   }
@@ -69,7 +69,16 @@ function MyAttempts() {
   return (
     <div className="attempts-page">
 
-      <h2>My Attempts</h2>
+      <div className="attempt-header">
+
+        <h2>My Quiz Attempts</h2>
+
+        <p>
+          Track your quiz performance and
+          monitor your learning progress.
+        </p>
+
+      </div>
 
       {attempts.length === 0 ? (
 
@@ -81,7 +90,7 @@ function MyAttempts() {
 
           <p>
             Start attempting quizzes to see
-            your history.
+            your history here.
           </p>
 
         </div>
@@ -107,9 +116,15 @@ function MyAttempts() {
                   key={attempt._id}
                 >
 
-                  <FaTrophy className="attempt-icon" />
+                  <div className="attempt-icon">
 
-                  <h3>{attempt.quiz?.title}</h3>
+                    <FaTrophy />
+
+                  </div>
+
+                  <h3>
+                    {attempt.quiz?.title}
+                  </h3>
 
                   <p>
                     {attempt.quiz?.description}
@@ -117,10 +132,9 @@ function MyAttempts() {
 
                   <div className="score">
 
-                    Score :
+                    Score
 
                     <span>
-                      {" "}
                       {attempt.score} /
                       {attempt.answers.length}
                     </span>
@@ -139,17 +153,17 @@ function MyAttempts() {
                   </div>
 
                   <div className="percentage">
-                    {percentage}%
-                  </div>
 
-                  <div
+                    {percentage}%
+
+                  </div>
+                                    <div
                     className={
                       percentage >= 50
                         ? "status passed"
                         : "status failed"
                     }
                   >
-
                     {percentage >= 50 ? (
                       <>
                         <FaCheckCircle />
@@ -161,7 +175,6 @@ function MyAttempts() {
                         Failed
                       </>
                     )}
-
                   </div>
 
                   <div className="date">
@@ -184,11 +197,10 @@ function MyAttempts() {
                 </div>
 
               );
+
             })}
 
           </div>
-
-          {/* Pagination */}
 
           {totalPages > 1 && (
 

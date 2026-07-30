@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import {
+  useNavigate,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   FaEye,
@@ -11,6 +15,7 @@ import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,13 +48,22 @@ function Login() {
 
       toast.success("Welcome back! 🎉");
 
-      navigate("/");
+      // Redirect to the page user originally wanted
+      navigate(location.state?.from?.pathname || "/", {
+        replace: true,
+      });
+
     } catch (error) {
+
       toast.error(
-  error.response?.data?.message || "Login Failed!"
-);
+        error.response?.data?.message ||
+          "Login Failed!"
+      );
+
     } finally {
+
       setLoading(false);
+
     }
   };
 
@@ -59,18 +73,21 @@ function Login() {
       <div className="login-card">
 
         <div className="login-header">
-  <FaGraduationCap className="login-logo" />
 
-  <div className="login-brand">
-    QuizMaster
-  </div>
+          <FaGraduationCap className="login-logo" />
 
-  <h2>Welcome Back</h2>
+          <div className="login-brand">
+            QuizMaster
+          </div>
 
-  <p>
-    Login to continue your QuizMaster journey.
-  </p>
-</div>
+          <h2>Welcome Back</h2>
+
+          <p>
+            Login to continue your QuizMaster
+            journey.
+          </p>
+
+        </div>
 
         <form onSubmit={handleSubmit}>
 
@@ -87,7 +104,9 @@ function Login() {
 
             <input
               type={
-                showPassword ? "text" : "password"
+                showPassword
+                  ? "text"
+                  : "password"
               }
               name="password"
               placeholder="Enter Password"
@@ -126,11 +145,9 @@ function Login() {
 
           <p>
             Don't have an account?{" "}
-
             <Link to="/register">
               Register
             </Link>
-
           </p>
 
         </div>

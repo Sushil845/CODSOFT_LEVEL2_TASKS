@@ -1,69 +1,198 @@
 import { Link } from "react-router-dom";
+import {
+  FaBookOpen,
+  FaPenFancy,
+  FaChartLine,
+  FaArrowRight,
+  FaGraduationCap,
+  FaCheckCircle,
+} from "react-icons/fa";
+
 import "./Home.css";
 
 function Home() {
   return (
     <>
+      {/* Hero Section */}
+
       <section className="hero">
-<div className="container text-center d-flex flex-column align-items-center">
-          <h1 className="display-4 fw-bold">
-            Welcome to QuizMaster
+
+        <div className="hero-content container">
+
+          <div className="hero-badge">
+            <FaGraduationCap />
+            <span>Welcome to QuizMaster</span>
+          </div>
+
+          <h1>
+            Challenge Your Mind.
+            <br />
+            Learn Something New Every Day.
           </h1>
 
-          <p className="lead mt-3">
-            Test your knowledge, create quizzes, and improve your learning with an interactive quiz platform.
+          <p>
+            Create interactive quizzes, challenge your friends,
+            improve your knowledge, and track your learning
+            journey with QuizMaster.
           </p>
 
-          <div className="mt-4 d-flex justify-content-center gap-3 flex-wrap">
-            <Link to="/quizzes" className="btn btn-light btn-lg px-4">
-    Start Quiz
-</Link>
+          <div className="hero-buttons">
 
-<Link to="/create" className="btn btn-outline-light btn-lg px-4">
-    Create Quiz
-</Link>
-          </div>
+            <Link
+              to="/quizzes"
+              className="primary-btn"
+            >
+              Explore Quizzes
+              <FaArrowRight />
+            </Link>
 
-        </div>
-      </section>
+            <Link
+              to="/create"
+              className="secondary-btn"
+            >
+              Create Quiz
+            </Link>
 
-      <section className="container py-5">
-
-        <div className="row text-center">
-
-          <div className="col-md-4 mb-4">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <h3>📝</h3>
-                <h5>Create Quizzes</h5>
-                <p>Create your own quizzes with multiple-choice questions.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 mb-4">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <h3>🎯</h3>
-                <h5>Attempt Quizzes</h5>
-                <p>Take quizzes and test your knowledge instantly.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 mb-4">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <h3>📊</h3>
-                <h5>Track Results</h5>
-                <p>View your quiz history and monitor your performance.</p>
-              </div>
-            </div>
           </div>
 
         </div>
 
       </section>
+
+      {/* Features */}
+
+      <section className="features container">
+
+        <div className="section-title">
+
+          <h2>Why Choose QuizMaster?</h2>
+
+          <p>
+            Everything you need for an engaging quiz
+            experience.
+          </p>
+
+        </div>
+
+        <div className="feature-grid">
+
+          <div className="feature-card">
+
+            <FaPenFancy className="feature-icon" />
+
+            <h3>Create Quizzes</h3>
+
+            <p>
+              Build unlimited quizzes with
+              multiple-choice questions in minutes.
+            </p>
+
+          </div>
+
+          <div className="feature-card">
+
+            <FaBookOpen className="feature-icon" />
+
+            <h3>Attempt Quizzes</h3>
+
+            <p>
+              Practice with quizzes created by
+              the community and improve your skills.
+            </p>
+
+          </div>
+
+          <div className="feature-card">
+
+            <FaChartLine className="feature-icon" />
+
+            <h3>Track Progress</h3>
+
+            <p>
+              Monitor your scores and review
+              every quiz you've attempted.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* Benefits */}
+
+      <section className="benefits">
+
+        <div className="container">
+
+          <div className="section-title">
+
+            <h2>Why Students Love QuizMaster</h2>
+
+          </div>
+
+          <div className="benefit-grid">
+
+            <div>
+              <FaCheckCircle />
+              Secure JWT Authentication
+            </div>
+
+            <div>
+              <FaCheckCircle />
+              Interactive Quiz Experience
+            </div>
+
+            <div>
+              <FaCheckCircle />
+              Instant Score Calculation
+            </div>
+
+            <div>
+              <FaCheckCircle />
+              Modern Responsive Design
+            </div>
+
+            <div>
+              <FaCheckCircle />
+              Community Quiz Sharing
+            </div>
+
+            <div>
+              <FaCheckCircle />
+              Track Quiz History
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* CTA */}
+
+      <section className="cta">
+
+        <div className="container">
+
+          <h2>Ready to Become a Quiz Master?</h2>
+
+          <p>
+            Start creating quizzes, challenge your friends,
+            and improve your learning today.
+          </p>
+
+          <Link
+            to="/quizzes"
+            className="cta-btn"
+          >
+            Start Now
+          </Link>
+
+        </div>
+
+      </section>
+
     </>
   );
 }

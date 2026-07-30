@@ -1,11 +1,22 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
+  const location = useLocation();
 
   if (!token) {
-    alert("Please login first!");
-    return <Navigate to="/login" replace />;
+    toast.warning("Please login first!", {
+      toastId: "login-required",
+    });
+
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ from: location }}
+      />
+    );
   }
 
   return children;

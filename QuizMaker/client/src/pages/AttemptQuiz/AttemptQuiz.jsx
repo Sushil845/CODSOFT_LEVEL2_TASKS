@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaCheckCircle,
+} from "react-icons/fa";
 import API from "../../api/axios";
 import "./AttemptQuiz.css";
 
@@ -27,41 +32,34 @@ function AttemptQuiz() {
       setAnswers(
         new Array(res.data.questions.length).fill(-1)
       );
-
     } catch (error) {
-
       console.log(error);
-
       toast.error("Failed to load quiz.");
-
     } finally {
-
       setLoading(false);
-
     }
   };
 
   const handleOptionChange = (optionIndex) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[currentQuestion] = optionIndex;
-    setAnswers(updatedAnswers);
+    const updated = [...answers];
+    updated[currentQuestion] = optionIndex;
+    setAnswers(updated);
   };
 
   const handleNext = () => {
     if (currentQuestion < quiz.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
+      setCurrentQuestion((prev) => prev + 1);
     }
   };
 
   const handlePrevious = () => {
     if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
+      setCurrentQuestion((prev) => prev - 1);
     }
   };
 
   const handleSubmit = async () => {
     try {
-
       const res = await API.post(
         `/quizzes/${id}/submit`,
         {
@@ -69,16 +67,14 @@ function AttemptQuiz() {
         }
       );
 
+      toast.success("Quiz Submitted Successfully!");
+
       navigate("/result", {
         state: res.data,
       });
-
     } catch (error) {
-
       console.log(error);
-
       toast.error("Failed to submit quiz.");
-
     }
   };
 
@@ -110,15 +106,21 @@ function AttemptQuiz() {
         <h2>Quiz Not Found</h2>
 
         <p>
-          This quiz may have been deleted
-          or does not exist.
+          This quiz does not exist or has
+          been removed.
         </p>
 
       </div>
     );
   }
 
-  const question = quiz.questions[currentQuestion];
+  const question =
+    quiz.questions[currentQuestion];
+
+  const progress =
+    ((currentQuestion + 1) /
+      quiz.questions.length) *
+    100;
 
   return (
     <div className="attempt-container">
@@ -132,58 +134,73 @@ function AttemptQuiz() {
           {quiz.questions.length}
         </p>
 
-        <hr />
+        {/* Progress */}
+
+        <div className="progress-container">
+
+          <div
+            className="progress-fill"
+            style={{
+              width: `${progress}%`,
+            }}
+          ></div>
+
+        </div>
 
         <h4>{question.question}</h4>
 
         <div className="options">
 
-          {question.options.map((option, index) => (
+          {question.options.map(
+            (option, index) => (
+              <label
+                key={index}
+                className="option"
+              >
+                <input
+                  type="radio"
+                  name="answer"
+                  checked={
+                    answers[
+                      currentQuestion
+                    ] === index
+                  }
+                  onChange={() =>
+                    handleOptionChange(index)
+                  }
+                />
 
-            <label
-              key={index}
-              className="option"
-            >
+                <span>{option}</span>
 
-              <input
-                type="radio"
-                name="answer"
-                checked={
-                  answers[currentQuestion] === index
-                }
-                onChange={() =>
-                  handleOptionChange(index)
-                }
-              />
-
-              {option}
-
-            </label>
-
-          ))}
+              </label>
+            )
+          )}
 
         </div>
 
-        <div
-          style={{
-            marginTop: "35px",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
+        <div className="button-group">
 
           <button
-            className="btn btn-secondary"
-            disabled={currentQuestion === 0}
+            className="quiz-btn prev-btn"
+            disabled={
+              currentQuestion === 0
+            }
             onClick={handlePrevious}
           >
-            ← Previous
+            <FaArrowLeft />
+            Previous
           </button>
 
           <button
-            className="btn btn-primary"
+            className={
+              currentQuestion ===
+              quiz.questions.length - 1
+                ? "quiz-btn submit-btn"
+                : "quiz-btn next-btn"
+            }
             disabled={
-              answers[currentQuestion] === -1
+              answers[currentQuestion] ===
+              -1
             }
             onClick={
               currentQuestion ===
@@ -193,9 +210,17 @@ function AttemptQuiz() {
             }
           >
             {currentQuestion ===
-            quiz.questions.length - 1
-              ? "Submit Quiz"
-              : "Next →"}
+            quiz.questions.length - 1 ? (
+              <>
+                <FaCheckCircle />
+                Submit Quiz
+              </>
+            ) : (
+              <>
+                Next
+                <FaArrowRight />
+              </>
+            )}
           </button>
 
         </div>
