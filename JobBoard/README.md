@@ -193,25 +193,7 @@ CareerNest
 
 ![Applicants](screenshots/applicants1.png)
 
----
 
-## 👨‍🎓 Candidate Dashboard
-
-![Candidate Dashboard](screenshots/candidate-dashboard1.png)
-
----
-
-## 📋 Applied Jobs
-
-![Applied Jobs](screenshots/applied-jobs1.png)
-
----
-
-## 🗄 MongoDB Database
-
-![Database](screenshots/database1.png)
-
----
 
 # 🚀 Getting Started
 
