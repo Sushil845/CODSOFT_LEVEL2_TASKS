@@ -17,7 +17,7 @@ A full-stack MERN Job Portal that connects job seekers and employers through a s
 # 🌐 Live Demo
 
 🔗 **Application:**  
-https://YOUR-CAREERNEST-URL.onrender.com/
+https://codsoft-level2-tasks.onrender.com/
 
 ---
 
